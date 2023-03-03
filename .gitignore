@@ -3,6 +3,7 @@
 
 # Não ignore estes arquivos:
 !.gitignore
+!README.md
 
 # Inclui diretórios:
 !*/
