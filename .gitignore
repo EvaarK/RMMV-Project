@@ -4,10 +4,14 @@
 # Não ignore estes arquivos:
 !.gitignore
 
-# Inclui lista de diretórios:
+# Inclui diretórios:
 !*/
 */*
 !*/EK_*.*
 !*/*/
 */*/*
 !*/*/EK_*.*
+
+# Inclui arquivos
+!js/jsconfig.json
+!js/lunalite-pixi-mv.d.ts
