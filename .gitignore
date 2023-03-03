@@ -1,0 +1,13 @@
+# Ignore tudo
+/*
+
+# Não ignore estes arquivos:
+!.gitignore
+
+# Inclui lista de diretórios:
+!*/
+*/*
+!*/EK_*.*
+!*/*/
+*/*/*
+!*/*/EK_*.*
