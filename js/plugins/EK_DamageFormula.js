@@ -15,13 +15,16 @@
  * Este plugin não tem comandos.
  * 
  * Para usar o Note em Skills como formula de dano use:
- * <damage formula>
+ * <formula>
  * a.atk * 4 - b.def * 2;
- * </damage formula>
+ * </formula>
  * 
  * ============================================================================
  * Changelog
  * ============================================================================
+ * 
+ * Versão 0.2.2-alpha
+ * - Correção no texto
  * 
  * Versão 0.2.1-alpha
  * - console.log removido.
@@ -39,7 +42,7 @@ Evaark.DamageFormula = Evaark.DamageFormula || {};
 Evaark.DamageFormula.Version = Evaark.DamageFormula.Version || {};
 Evaark.DamageFormula.Version.major = 0;
 Evaark.DamageFormula.Version.minor = 2;
-Evaark.DamageFormula.Version.patch = 1;
+Evaark.DamageFormula.Version.patch = 2;
 Evaark.DamageFormula.Version.preReleaseTag = "-alpha";
 Evaark.DamageFormula.Version.semVer = Evaark.DamageFormula.Version.major + '.' +
                     Evaark.DamageFormula.Version.minor + '.' +
