@@ -2,14 +2,8 @@
 // EK_DifficultyControl.js
 //=============================================================================
 
-var Imported = Imported || {};
-Imported.EK_DifficultyControl = true;
-
-var Evaark = Evaark || {};
-Evaark.DifficultyControl = Evaark.DifficultyControl || {};
-Evaark.DifficultyControl.version = 1.0;
-
 /*:
+ * @target MV
  * @plugindesc Controle de dificuldade.
  * @author EvaarK
  *
@@ -33,7 +27,7 @@ Evaark.DifficultyControl.version = 1.0;
  * @default 0.5
  * 
  * @param Normal
- * @default
+ * @default null
  * 
  * @param Dano Jogador Normal
  * @type number
@@ -73,9 +67,9 @@ Evaark.DifficultyControl.version = 1.0;
  * @param Variável
  * @type number
  * @min 1
- * @desc Define a variável usada.
- * Padrão = 1
- * @default 1
+ * @desc Define a variável do RPG Maker que será usada.
+ * Padrão = 0001
+ * @default 0001
  * 
  * @help
  * ============================================================================
@@ -83,57 +77,84 @@ Evaark.DifficultyControl.version = 1.0;
  * ============================================================================
  * Feito no RPG Maker MV 1.6.1.
  * Este plugin não tem comandos.
+ * 
+ * Ainda não sei como aplicar no jogo sem chamar o script
+ * Preciso de ajuda.
  * ============================================================================
  * Changelog
  * ============================================================================
  * 
- * Versão 1.0:
+ * Versão 0.2.0-alpha:
+ * - Alteração no código
+ * 
+ * Versão 0.1.0-alpha:
  * - Lançamento Inicial.
  */
 
-Evaark.Parameters = PluginManager.parameters('EK_DifficultyControl');
-Evaark.Param = Evaark.Param || {};
+var Evaark = Evaark || {};
+Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 
-Evaark.Param.PlayerMultiplierEasy = Number(Evaark.Parameters['Dano Jogador Fácil'] || 3);
-Evaark.Param.EnemyMultiplierEasy = Number(Evaark.Parameters['Dano Inimigo Fácil'] || 0.5);
-Evaark.Param.PlayerMultiplierNormal = Number(Evaark.Parameters['Dano Jogador Normal'] || 3);
-Evaark.Param.EnemyMultiplierNormal = Number(Evaark.Parameters['Dano Inimigo Normal'] || 1);
-Evaark.Param.PlayerMultiplierHard = Number(Evaark.Parameters['Dano Jogador Difícil'] || 2);
-Evaark.Param.EnemyMultiplierHard = Number(Evaark.Parameters['Dano Inimigo Difícil'] || 2);
-Evaark.Param.DifVariable = Number(Evaark.Parameters['Variável'] || 1);
+Evaark.DifficultyControl.Version = Evaark.DifficultyControl.Version || {};
+Evaark.DifficultyControl.Version.major = 0;
+Evaark.DifficultyControl.Version.minor = 2;
+Evaark.DifficultyControl.Version.patch = 0;
+Evaark.DifficultyControl.Version.preReleaseTag = "-alpha";
+Evaark.DifficultyControl.Version.semVer = Evaark.DifficultyControl.Version.major + '.' +
+                    Evaark.DifficultyControl.Version.minor + '.' +
+                    Evaark.DifficultyControl.Version.patch +
+                    Evaark.DifficultyControl.Version.preReleaseTag;
 
+Evaark.DifficultyControl.params = PluginManager.parameters('EK_DifficultyControl');
+
+Evaark.DifficultyControl.playerMultiplierEasy = Number(Evaark.DifficultyControl.params['Dano Jogador Fácil'] || 3);
+Evaark.DifficultyControl.enemyMultiplierEasy = Number(Evaark.DifficultyControl.params['Dano Inimigo Fácil'] || 0.5);
+Evaark.DifficultyControl.playerMultiplierNormal = Number(Evaark.DifficultyControl.params['Dano Jogador Normal'] || 3);
+Evaark.DifficultyControl.enemyMultiplierNormal = Number(Evaark.DifficultyControl.params['Dano Inimigo Normal'] || 1);
+Evaark.DifficultyControl.playerMultiplierHard = Number(Evaark.DifficultyControl.params['Dano Jogador Difícil'] || 2);
+Evaark.DifficultyControl.enemyMultiplierHard = Number(Evaark.DifficultyControl.params['Dano Inimigo Difícil'] || 2);
+Evaark.DifficultyControl.difficultyVariable = Number(Evaark.DifficultyControl.params['Variável'] || 0001);
+
+Evaark.DifficultyControl.playerMultiplier = 3;
+Evaark.DifficultyControl.enemyMultiplier = 1;
 
 Evaark.DifficultyControl.Scene_Load_onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
-Scene_Load.prototype.onLoadSuccess = function() {
+Scene_Load.prototype.onLoadSuccess = function()
+{
+    console.log("Chamando DifficultyControl");
     Evaark.DifficultyControl.Scene_Load_onLoadSuccess.call(this);
 
-    EkDifficultyControl.ApplyDificulty(Evaark.Param.DifVariable);
+    EkDifficultyControl.ApplyDificulty(Evaark.DifficultyControl.difficultyVariable);
 }
 
-function EkDifficultyControl() {
+function EkDifficultyControl()
+{
     this.initialize.apply(this, arguments);
 }
 
-EkDifficultyControl.ApplyDificulty = function (diffVar) {
-    switch ($gameVariables.value(diffVar)) {
+EkDifficultyControl.ApplyDificulty = function (variable)
+{
+    switch ($gameVariables.value(variable)) {
         case "EASY":
-            Evaark.DifficultyControl.PlayerMultiplier = Evaark.Param.PlayerMultiplierEasy;
-            Evaark.DifficultyControl.EnemyMultiplier = Evaark.Param.EnemyMultiplierEasy;
+            Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierEasy;
+            Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierEasy;
             break;
     
         case "NORMAL":
-            Evaark.DifficultyControl.PlayerMultiplier = Evaark.Param.PlayerMultiplierNormal;
-            Evaark.DifficultyControl.EnemyMultiplier = Evaark.Param.EnemyMultiplierNormal;
+            Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierNormal;
+            Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierNormal;
             break;
 
         case "HARD":
-            Evaark.DifficultyControl.PlayerMultiplier = Evaark.Param.PlayerMultiplierHard;
-            Evaark.DifficultyControl.EnemyMultiplier = Evaark.Param.EnemyMultiplierHard;
+            Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierHard;
+            Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierHard;
             break;
 
         default:
-            Evaark.DifficultyControl.PlayerMultiplier = 3;
-            Evaark.DifficultyControl.EnemyMultiplier = 1;
+            Evaark.DifficultyControl.playerMultiplier = 3;
+            Evaark.DifficultyControl.enemyMultiplier = 1;
             break;
     }
+
+    console.log("Multiplicador do jogador " + Evaark.DifficultyControl.playerMultiplier + "\r\n" +
+                "Multiplicador do inimigo " + Evaark.DifficultyControl.enemyMultiplier);
 };

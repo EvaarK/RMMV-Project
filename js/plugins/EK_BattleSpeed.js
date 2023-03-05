@@ -2,14 +2,8 @@
 // EK_BattleSpeed.js
 //=============================================================================
 
-var Imported = Imported || {};
-Imported.EK_BattleSpeed = true;
-
-var Evaark = Evaark || {};
-Evaark.BattleSpeed = Evaark.BattleSpeed || {};
-Evaark.BattleSpeed.version = 1.01;
-
 /*:
+ * @target MV
  * @plugindesc Modifica a velocidade da batalha.
  * @author EvaarK
  *
@@ -24,7 +18,7 @@ Evaark.BattleSpeed.version = 1.01;
  * @param Velocidade Personalizada
  * @type number
  * @desc Define a velocidade personalizada.
- * @default
+ * @default 16
  * 
  * @help
  * ============================================================================
@@ -35,39 +29,62 @@ Evaark.BattleSpeed.version = 1.01;
  * ============================================================================
  * Changelog
  * ============================================================================
- *
- * Versão 1.0.1:
+ * 
+ * Versão 0.2.0-alpha:
+ * - Alteração no código.
+ * 
+ * Versão 0.1.1-alpha:
  * - Pequena alteração no codigo.
  * 
- * Versão 1.0:
+ * Versão 0.1-alpha:
  * - Lançamento Inicial.
  */
 
-Evaark.Parameters = PluginManager.parameters('EK_BattleSpeed');
-Evaark.Param = Evaark.Param || {};
+var Evaark = Evaark || {};
+Evaark.BattleSpeed = Evaark.BattleSpeed || {};
 
-Evaark.Param.BattleSpeed = Number(Evaark.Parameters['Velocidade'] || 1);
-Evaark.Param.CustomSpeed = Number(Evaark.Parameters['Velocidade Personalizada']);
+Evaark.BattleSpeed.Version = Evaark.BattleSpeed.Version || {};
+Evaark.BattleSpeed.Version.major = 0;
+Evaark.BattleSpeed.Version.minor = 2;
+Evaark.BattleSpeed.Version.patch = 0;
+Evaark.BattleSpeed.Version.preReleaseTag = "-alpha";
+Evaark.BattleSpeed.Version.semVer = Evaark.BattleSpeed.Version.major + '.' +
+                    Evaark.BattleSpeed.Version.minor + '.' +
+                    Evaark.BattleSpeed.Version.patch +
+                    Evaark.BattleSpeed.Version.preReleaseTag;
 
-Evaark.BattleSpeed.LogSpeed = 0;
-switch (Evaark.Param.BattleSpeed)
+Evaark.BattleSpeed.params = PluginManager.parameters('EK_BattleSpeed');
+
+Evaark.BattleSpeed.speed = Number(Evaark.BattleSpeed.params['Velocidade'] || 1);
+Evaark.BattleSpeed.customSpeed = Number(Evaark.BattleSpeed.params['Velocidade Personalizada']);
+
+Evaark.BattleSpeed.logSpeed = 0;
+switch (Evaark.BattleSpeed.speed)
 {
     case 0:
-        Evaark.BattleSpeed.LogSpeed = 8;
+        Evaark.BattleSpeed.logSpeed = 8;
         break;
     case 1:
-        Evaark.BattleSpeed.LogSpeed = 16;
+        Evaark.BattleSpeed.logSpeed = 16;
         break;
     case 2:
-        Evaark.BattleSpeed.LogSpeed = 32;
+        Evaark.BattleSpeed.logSpeed = 32;
         break;
     case 3:
-        Evaark.BattleSpeed.LogSpeed = Evaark.Param.CustomSpeed;
+        if (Evaark.BattleSpeed.customSpeed < 0)
+        {
+            Evaark.BattleSpeed.logSpeed = 0;
+        }
+        else
+        {
+            Evaark.BattleSpeed.logSpeed = Evaark.BattleSpeed.customSpeed;
+        }
         break;
     default:
-        Evaark.BattleSpeed.LogSpeed = 16;
+        Evaark.BattleSpeed.logSpeed = 16;
 }
 
-Window_BattleLog.prototype.messageSpeed = function() {
-    return Evaark.BattleSpeed.LogSpeed;
+Window_BattleLog.prototype.messageSpeed = function()
+{
+    return Evaark.BattleSpeed.logSpeed;
 };
