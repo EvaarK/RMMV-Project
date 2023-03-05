@@ -25,8 +25,11 @@
  * Changelog
  * ============================================================================
  *
+ * Versão 0.2.1-alpha:
+ * - console.log removido.
+ * 
  * Versão 0.2.0-alpha:
- * - Alteração no código
+ * - Alteração no código.
  * 
  * Versão 0.1.2-alpha:
  * - Suporta decimal.
@@ -44,7 +47,7 @@ Evaark.CriticalMultiplier = Evaark.CriticalMultiplier || {};
 Evaark.CriticalMultiplier.Version = Evaark.CriticalMultiplier.Version || {};
 Evaark.CriticalMultiplier.Version.major = 0;
 Evaark.CriticalMultiplier.Version.minor = 2;
-Evaark.CriticalMultiplier.Version.patch = 0;
+Evaark.CriticalMultiplier.Version.patch = 1;
 Evaark.CriticalMultiplier.Version.preReleaseTag = "-alpha";
 Evaark.CriticalMultiplier.Version.semVer = Evaark.CriticalMultiplier.Version.major + '.' +
                     Evaark.CriticalMultiplier.Version.minor + '.' +
@@ -63,6 +66,5 @@ Game_Action.prototype.applyCritical = function(damage)
         return damage;
     }
 
-    console.log(damage * Evaark.CriticalMultiplier.multiplier);
     return damage * Evaark.CriticalMultiplier.multiplier;
 };

@@ -84,8 +84,11 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 0.2.1-alpha:
+ * - console.log removido.
+ * 
  * Versão 0.2.0-alpha:
- * - Alteração no código
+ * - Alteração no código.
  * 
  * Versão 0.1.0-alpha:
  * - Lançamento Inicial.
@@ -97,7 +100,7 @@ Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 Evaark.DifficultyControl.Version = Evaark.DifficultyControl.Version || {};
 Evaark.DifficultyControl.Version.major = 0;
 Evaark.DifficultyControl.Version.minor = 2;
-Evaark.DifficultyControl.Version.patch = 0;
+Evaark.DifficultyControl.Version.patch = 1;
 Evaark.DifficultyControl.Version.preReleaseTag = "-alpha";
 Evaark.DifficultyControl.Version.semVer = Evaark.DifficultyControl.Version.major + '.' +
                     Evaark.DifficultyControl.Version.minor + '.' +
@@ -155,6 +158,7 @@ EkDifficultyControl.ApplyDificulty = function (variable)
             break;
     }
 
-    console.log("Multiplicador do jogador " + Evaark.DifficultyControl.playerMultiplier + "\r\n" +
-                "Multiplicador do inimigo " + Evaark.DifficultyControl.enemyMultiplier);
+    //console.log("Valor da Variavel \'" + variable + "\': " + $gameVariables.value(variable) + "\r\n" +
+    //    "Multiplicador do jogador: " + Evaark.DifficultyControl.playerMultiplier + "\r\n" +
+    //    "Multiplicador do inimigo: " + Evaark.DifficultyControl.enemyMultiplier);
 };
