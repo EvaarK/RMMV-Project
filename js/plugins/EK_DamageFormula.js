@@ -92,6 +92,6 @@ DataManager.readDamageTag = function(damageTag)
             }
         }
         
-        //console.log("formula for " + damageTag[i].name + ": " + obj.damage.formula);
+        console.log("formula for " + damageTag[i].name + ": " + obj.damage.formula);
     }
 }

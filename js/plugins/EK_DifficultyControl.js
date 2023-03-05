@@ -27,7 +27,7 @@
  * @default 0.5
  * 
  * @param Normal
- * @default null
+ * @default
  * 
  * @param Dano Jogador Normal
  * @type number
@@ -84,6 +84,9 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 0.2.2-alpha:
+ * - Correção de texto.
+ * 
  * Versão 0.2.1-alpha:
  * - console.log removido.
  * 
@@ -100,7 +103,7 @@ Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 Evaark.DifficultyControl.Version = Evaark.DifficultyControl.Version || {};
 Evaark.DifficultyControl.Version.major = 0;
 Evaark.DifficultyControl.Version.minor = 2;
-Evaark.DifficultyControl.Version.patch = 1;
+Evaark.DifficultyControl.Version.patch = 2;
 Evaark.DifficultyControl.Version.preReleaseTag = "-alpha";
 Evaark.DifficultyControl.Version.semVer = Evaark.DifficultyControl.Version.major + '.' +
                     Evaark.DifficultyControl.Version.minor + '.' +
@@ -158,7 +161,7 @@ EkDifficultyControl.ApplyDificulty = function (variable)
             break;
     }
 
-    //console.log("Valor da Variavel \'" + variable + "\': " + $gameVariables.value(variable) + "\r\n" +
-    //    "Multiplicador do jogador: " + Evaark.DifficultyControl.playerMultiplier + "\r\n" +
-    //    "Multiplicador do inimigo: " + Evaark.DifficultyControl.enemyMultiplier);
+    console.log("Valor da Variavel \'" + variable + "\': " + $gameVariables.value(variable) + "\r\n" +
+        "Multiplicador do jogador: " + Evaark.DifficultyControl.playerMultiplier + "\r\n" +
+        "Multiplicador do inimigo: " + Evaark.DifficultyControl.enemyMultiplier);
 };

@@ -45,5 +45,5 @@ Game_Actor.prototype.levelUp = function() {
     Evaark.HealLevelUp.Game_Actor_levelUp.call(this);
 
     this.recoverAll();
-    //console.log("Curando Personagens no Level up");
+    console.log("Curando Personagens no Level up");
 }
