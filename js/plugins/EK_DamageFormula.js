@@ -23,8 +23,11 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 0.2.1-alpha
+ * - console.log removido.
+ * 
  * Versão 0.2.0-alpha
- * - Alteração no código
+ * - Alteração no código.
  * 
  * Versão 0.1.0-alpha - 18/01/2022:
  * - Lançamento Inicial.
@@ -36,7 +39,7 @@ Evaark.DamageFormula = Evaark.DamageFormula || {};
 Evaark.DamageFormula.Version = Evaark.DamageFormula.Version || {};
 Evaark.DamageFormula.Version.major = 0;
 Evaark.DamageFormula.Version.minor = 2;
-Evaark.DamageFormula.Version.patch = 0;
+Evaark.DamageFormula.Version.patch = 1;
 Evaark.DamageFormula.Version.preReleaseTag = "-alpha";
 Evaark.DamageFormula.Version.semVer = Evaark.DamageFormula.Version.major + '.' +
                     Evaark.DamageFormula.Version.minor + '.' +
@@ -86,6 +89,6 @@ DataManager.readDamageTag = function(damageTag)
             }
         }
         
-        console.log("formula for " + damageTag[i].name + ": " + obj.damage.formula);
+        //console.log("formula for " + damageTag[i].name + ": " + obj.damage.formula);
     }
 }

@@ -17,8 +17,11 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 0.2.1-alpha:
+ * - console.log removido.
+ * 
  * Versão 0.2.0-alpha:
- * - Alteração no código
+ * - Alteração no código.
  * 
  * Versão 0.1.0-alpha:
  * - Lançamento Inicial.
@@ -30,7 +33,7 @@ Evaark.HealLevelUp = Evaark.HealLevelUp || {};
 Evaark.HealLevelUp.Version = Evaark.HealLevelUp.Version || {};
 Evaark.HealLevelUp.Version.major = 0;
 Evaark.HealLevelUp.Version.minor = 2;
-Evaark.HealLevelUp.Version.patch = 0;
+Evaark.HealLevelUp.Version.patch = 1;
 Evaark.HealLevelUp.Version.preReleaseTag = "-alpha";
 Evaark.HealLevelUp.Version.semVer = Evaark.HealLevelUp.Version.major + '.' +
                     Evaark.HealLevelUp.Version.minor + '.' +
@@ -42,5 +45,5 @@ Game_Actor.prototype.levelUp = function() {
     Evaark.HealLevelUp.Game_Actor_levelUp.call(this);
 
     this.recoverAll();
-    console.log("Curando Personagens no Level up");
+    //console.log("Curando Personagens no Level up");
 }
