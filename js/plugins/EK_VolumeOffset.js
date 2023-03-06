@@ -31,7 +31,7 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 0.1-alpha:
+ * Versão x.x.x:
  * - Lançamento Inicial.
  */
 
@@ -42,7 +42,7 @@ Evaark.VolumeOffset.Version = Evaark.VolumeOffset.Version || {};
 Evaark.VolumeOffset.Version.major = 0;
 Evaark.VolumeOffset.Version.minor = 1;
 Evaark.VolumeOffset.Version.patch = 0;
-Evaark.VolumeOffset.Version.preReleaseTag = "-alpha";
+Evaark.VolumeOffset.Version.preReleaseTag = "-test";
 Evaark.VolumeOffset.Version.semVer = Evaark.VolumeOffset.Version.major + '.' +
                     Evaark.VolumeOffset.Version.minor + '.' +
                     Evaark.VolumeOffset.Version.patch +
