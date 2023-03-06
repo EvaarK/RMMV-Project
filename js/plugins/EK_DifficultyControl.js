@@ -111,8 +111,8 @@ Evaark.DifficultyControl.playerMultiplierHard = Number(Evaark.DifficultyControl.
 Evaark.DifficultyControl.enemyMultiplierHard = Number(Evaark.DifficultyControl.params['Dano Inimigo Difícil'] || 2);
 Evaark.DifficultyControl.difficultyVariable = Number(Evaark.DifficultyControl.params['Variável'] || 0001);
 
-Evaark.DifficultyControl.playerMultiplier = 3;
-Evaark.DifficultyControl.enemyMultiplier = 1;
+Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierEasy;
+Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierEasy;
 
 Evaark.DifficultyControl.Scene_Load_onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
 Scene_Load.prototype.onLoadSuccess = function()
