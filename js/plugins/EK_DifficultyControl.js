@@ -84,16 +84,7 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 0.2.2-alpha:
- * - Correção de texto.
- * 
- * Versão 0.2.1-alpha:
- * - console.log removido.
- * 
- * Versão 0.2.0-alpha:
- * - Alteração no código.
- * 
- * Versão 0.1.0-alpha:
+ * Versão x.x.x:
  * - Lançamento Inicial.
  */
 
@@ -102,9 +93,9 @@ Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 
 Evaark.DifficultyControl.Version = Evaark.DifficultyControl.Version || {};
 Evaark.DifficultyControl.Version.major = 0;
-Evaark.DifficultyControl.Version.minor = 2;
-Evaark.DifficultyControl.Version.patch = 2;
-Evaark.DifficultyControl.Version.preReleaseTag = "-alpha";
+Evaark.DifficultyControl.Version.minor = 3;
+Evaark.DifficultyControl.Version.patch = 0;
+Evaark.DifficultyControl.Version.preReleaseTag = "-notReady";
 Evaark.DifficultyControl.Version.semVer = Evaark.DifficultyControl.Version.major + '.' +
                     Evaark.DifficultyControl.Version.minor + '.' +
                     Evaark.DifficultyControl.Version.patch +

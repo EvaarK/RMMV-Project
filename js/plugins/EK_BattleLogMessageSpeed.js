@@ -40,7 +40,7 @@
  * Versão 0.1.1-alpha:
  * - Pequena alteração no codigo.
  * 
- * Versão 0.1-alpha:
+ * Versão 0.1.0-alpha:
  * - Lançamento Inicial.
  */
 
