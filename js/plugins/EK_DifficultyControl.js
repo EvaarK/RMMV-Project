@@ -84,22 +84,13 @@
  * Changelog
  * ============================================================================
  * 
- * Versão x.x.x:
- * - Lançamento Inicial.
+ * Versão 0.4.0-alpha
  */
 
 var Evaark = Evaark || {};
 Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 
-Evaark.DifficultyControl.Version = Evaark.DifficultyControl.Version || {};
-Evaark.DifficultyControl.Version.major = 0;
-Evaark.DifficultyControl.Version.minor = 3;
-Evaark.DifficultyControl.Version.patch = 0;
-Evaark.DifficultyControl.Version.preReleaseTag = "-notReady";
-Evaark.DifficultyControl.Version.semVer = Evaark.DifficultyControl.Version.major + '.' +
-                    Evaark.DifficultyControl.Version.minor + '.' +
-                    Evaark.DifficultyControl.Version.patch +
-                    Evaark.DifficultyControl.Version.preReleaseTag;
+Evaark.DifficultyControl.version = [0, 4, 0];
 
 Evaark.DifficultyControl.params = PluginManager.parameters('EK_DifficultyControl');
 
@@ -117,7 +108,7 @@ Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultipl
 Evaark.DifficultyControl.Scene_Load_onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
 Scene_Load.prototype.onLoadSuccess = function()
 {
-    console.log("Chamando DifficultyControl");
+    console.log('Chamando DifficultyControl');
     Evaark.DifficultyControl.Scene_Load_onLoadSuccess.call(this);
 
     EkDifficultyControl.ApplyDificulty(Evaark.DifficultyControl.difficultyVariable);
@@ -131,17 +122,17 @@ function EkDifficultyControl()
 EkDifficultyControl.ApplyDificulty = function (variable)
 {
     switch ($gameVariables.value(variable)) {
-        case "EASY":
+        case 'EASY':
             Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierEasy;
             Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierEasy;
             break;
     
-        case "NORMAL":
+        case 'NORMAL':
             Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierNormal;
             Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierNormal;
             break;
 
-        case "HARD":
+        case 'HARD':
             Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierHard;
             Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierHard;
             break;
@@ -152,7 +143,7 @@ EkDifficultyControl.ApplyDificulty = function (variable)
             break;
     }
 
-    console.log("Valor da Variavel \'" + variable + "\': " + $gameVariables.value(variable) + "\r\n" +
-        "Multiplicador do jogador: " + Evaark.DifficultyControl.playerMultiplier + "\r\n" +
-        "Multiplicador do inimigo: " + Evaark.DifficultyControl.enemyMultiplier);
+    console.log('Valor da Variavel \'' + variable + '\': ' + $gameVariables.value(variable) + '\r\n' +
+        'Multiplicador do jogador: ' + Evaark.DifficultyControl.playerMultiplier + '\r\n' +
+        'Multiplicador do inimigo: ' + Evaark.DifficultyControl.enemyMultiplier);
 };

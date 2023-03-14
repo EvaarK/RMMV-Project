@@ -18,8 +18,8 @@
  * @type decimal
  * @min 1
  * @desc Define o multiplicador com shift apertado.
- * Padrão: 2
- * @default 2
+ * Padrão: 1.00
+ * @default 1.00
  *
  * @help
  * ============================================================================
@@ -31,27 +31,18 @@
  * Changelog
  * ============================================================================
  * 
- * Versão x.x.x:
- * - Lançamento Inicial.
+ * Versão 0.2.0-alpha
  */
 
 var Evaark = Evaark || {};
 Evaark.VolumeOffset = Evaark.VolumeOffset || {};
 
-Evaark.VolumeOffset.Version = Evaark.VolumeOffset.Version || {};
-Evaark.VolumeOffset.Version.major = 0;
-Evaark.VolumeOffset.Version.minor = 1;
-Evaark.VolumeOffset.Version.patch = 0;
-Evaark.VolumeOffset.Version.preReleaseTag = "-test";
-Evaark.VolumeOffset.Version.semVer = Evaark.VolumeOffset.Version.major + '.' +
-                    Evaark.VolumeOffset.Version.minor + '.' +
-                    Evaark.VolumeOffset.Version.patch +
-                    Evaark.VolumeOffset.Version.preReleaseTag;
+Evaark.VolumeOffset.version = [0, 2, 0];
 
 Evaark.VolumeOffset.params = PluginManager.parameters('EK_VolumeOffset');
 
 Evaark.VolumeOffset.value = Number(Evaark.VolumeOffset.params['Valor'] || 20);
-Evaark.VolumeOffset.multiplier = Number(Evaark.VolumeOffset.params['Valor Shift'] || 2);
+Evaark.VolumeOffset.multiplier = Number(Evaark.VolumeOffset.params['Valor Shift'] || 1.00);
 
 Window_Options.prototype.volumeOffset = function()
 {

@@ -4,7 +4,7 @@
 
 /*:
  * @target MV
- * @plugindesc Organiza melhor a formula de dano.
+ * @plugindesc Usa Nota para formula de dano.
  * @author EvaarK
  * 
  * @help
@@ -14,40 +14,30 @@
  * Feito no RPG Maker MV 1.6.1.
  * Este plugin não tem comandos.
  * 
- * Para usar o Note em Skills como formula de dano use:
+ * Para usar a Nota em Habilidades como formula de dano use:
  * <formula>
- * a.atk * 4 - b.def * 2;
+ * a.atk * 4 - b.def * 2
+ * </formula>
+ * 
+ * Também suporta códigos em JavaScript:
+ * <formula>
+ * var multiplicadorA = 4; //Importante usar ponto e vírgula
+ * var multiplicadorB = 2;
+ * a.atk * multiplicadorA - b.def * multiplicadorB;
  * </formula>
  * 
  * ============================================================================
  * Changelog
  * ============================================================================
  * 
- * Versão 0.2.2-alpha
- * - Correção no texto
- * 
- * Versão 0.2.1-alpha
- * - console.log removido.
- * 
- * Versão 0.2.0-alpha
- * - Alteração no código.
- * 
- * Versão 0.1.0-alpha - 18/01/2022:
+ * Versão 1.0.0:
  * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
-Evaark.DamageFormula.Version = Evaark.DamageFormula.Version || {};
-Evaark.DamageFormula.Version.major = 0;
-Evaark.DamageFormula.Version.minor = 2;
-Evaark.DamageFormula.Version.patch = 2;
-Evaark.DamageFormula.Version.preReleaseTag = "-alpha";
-Evaark.DamageFormula.Version.semVer = Evaark.DamageFormula.Version.major + '.' +
-                    Evaark.DamageFormula.Version.minor + '.' +
-                    Evaark.DamageFormula.Version.patch +
-                    Evaark.DamageFormula.Version.preReleaseTag;
+Evaark.DamageFormula.version = [1, 0, 0];
 
 Evaark.DamageFormula.DataManager_isDatabaseLoaded = DataManager.isDatabaseLoaded;
 DataManager.isDatabaseLoaded = function()
@@ -55,43 +45,44 @@ DataManager.isDatabaseLoaded = function()
     Evaark.DamageFormula.DataManager_isDatabaseLoaded.call(this);
 
     if (!Evaark._isLoaded_EK_DamageFormula) {
-        this.readDamageTag($dataSkills);
+        this.ekCreateDamageFormula($dataSkills);
         Evaark._isLoaded_EK_DamageFormula = true;
     }
 
     return true;
 }
 
-DataManager.readDamageTag = function(damageTag)
+DataManager.ekCreateDamageFormula = function(dataSkills)
 {
-    for (let i = 1; i < damageTag.length; i++)
+    for (let i = 1; i < dataSkills.length; i++)
     {
-        var obj = damageTag[i];
-        var noteData = obj.note.split(/[\r\n]+/);
-
-        var isDamageFormula = false;
-        obj.damage.custom = false;
-
-        for (let ii = 0; ii < noteData.length; ii++)
+        var dataSkill = dataSkills[i];
+        if(dataSkill.meta.formula != true)
         {
-            var line = noteData[ii];
+            break;
+        }
 
+        var noteSplited = dataSkill.note.split(/[\r\n]+/);
+        var isFormulaMode = false;
+        for (let ii = 0; ii < noteSplited.length; ii++)
+        {
+            var line = noteSplited[ii];
             if (line.match(/<formula>/i))
             {
-                isDamageFormula = true;
-                obj.damage.formula = "";
-                obj.damage.custom = true;
+                isFormulaMode = true;
+                dataSkill.damage.formula = '';
             }
             else if (line.match(/<\/formula>/i))
             {
-                isDamageFormula = false;
+                isFormulaMode = false;
+                break;
             }
-            else if (isDamageFormula)
+            else if (isFormulaMode)
             {
-                obj.damage.formula = obj.damage.formula + line + "\n";
+                dataSkill.damage.formula = dataSkill.damage.formula + line + '\r\n';
             }
         }
-        
-        console.log("formula for " + damageTag[i].name + ": " + obj.damage.formula);
+
+        console.log('formula for ' + dataSkills[i].name + ': ' + dataSkill.damage.formula);
     }
 }
