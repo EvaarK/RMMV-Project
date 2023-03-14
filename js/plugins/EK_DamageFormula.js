@@ -83,6 +83,6 @@ DataManager.ekCreateDamageFormula = function(dataSkills)
             }
         }
 
-        console.log('formula for ' + dataSkills[i].name + ': ' + dataSkill.damage.formula);
+        //console.log('formula for ' + dataSkills[i].name + ': ' + dataSkill.damage.formula);
     }
 }

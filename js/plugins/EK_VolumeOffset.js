@@ -31,13 +31,14 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 0.2.0-alpha
+ * Versão 1.0.0:
+ * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
 Evaark.VolumeOffset = Evaark.VolumeOffset || {};
 
-Evaark.VolumeOffset.version = [0, 2, 0];
+Evaark.VolumeOffset.version = [1, 0, 0];
 
 Evaark.VolumeOffset.params = PluginManager.parameters('EK_VolumeOffset');
 
@@ -48,10 +49,10 @@ Window_Options.prototype.volumeOffset = function()
 {
     if (Input.isPressed(Input.keyMapper[16]))
     {
-        console.log((Evaark.VolumeOffset.value * Evaark.VolumeOffset.multiplier) + " " + Input.isPressed(Input.keyMapper[16]));
+        //console.log((Evaark.VolumeOffset.value * Evaark.VolumeOffset.multiplier) + " " + Input.isPressed(Input.keyMapper[16]));
         return Evaark.VolumeOffset.value * Evaark.VolumeOffset.multiplier;
     }
     
-    console.log(Evaark.VolumeOffset.value + " " + Input.isPressed(Input.keyMapper[16]));
+    //console.log(Evaark.VolumeOffset.value + " " + Input.isPressed(Input.keyMapper[16]));
     return Evaark.VolumeOffset.value;
 }
