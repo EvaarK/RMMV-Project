@@ -25,34 +25,14 @@
  * Changelog
  * ============================================================================
  *
- * Versão 0.2.1-alpha:
- * - console.log removido.
- * 
- * Versão 0.2.0-alpha:
- * - Alteração no código.
- * 
- * Versão 0.1.2-alpha:
- * - Suporta decimal.
- *
- * Versão 0.1.1-alpha:
- * - Pequena alteração no codigo.
- * 
- * Versão 0.1-alpha:
+ * Versão 1.0.0:
  * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
 Evaark.CriticalMultiplier = Evaark.CriticalMultiplier || {};
 
-Evaark.CriticalMultiplier.Version = Evaark.CriticalMultiplier.Version || {};
-Evaark.CriticalMultiplier.Version.major = 0;
-Evaark.CriticalMultiplier.Version.minor = 2;
-Evaark.CriticalMultiplier.Version.patch = 1;
-Evaark.CriticalMultiplier.Version.preReleaseTag = "-alpha";
-Evaark.CriticalMultiplier.Version.semVer = Evaark.CriticalMultiplier.Version.major + '.' +
-                    Evaark.CriticalMultiplier.Version.minor + '.' +
-                    Evaark.CriticalMultiplier.Version.patch +
-                    Evaark.CriticalMultiplier.Version.preReleaseTag;
+Evaark.CriticalMultiplier.version = [1, 0, 0];
 
 Evaark.CriticalMultiplier.params = PluginManager.parameters('EK_CriticalMultiplier');
 
@@ -60,11 +40,6 @@ Evaark.CriticalMultiplier.multiplier = Number(Evaark.CriticalMultiplier.params['
 
 Game_Action.prototype.applyCritical = function(damage)
 {
-    if (Evaark.CriticalMultiplier.multiplier <= 0)
-    {
-        console.log(damage);
-        return damage;
-    }
-
+    console.log(damage * Evaark.CriticalMultiplier.multiplier);
     return damage * Evaark.CriticalMultiplier.multiplier;
 };
