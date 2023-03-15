@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // EK_DifficultyControl.js
 //=============================================================================
 
@@ -9,7 +9,7 @@
  *
  * @param Fácil
  * @default
- * 
+ *
  * @param Dano Jogador Fácil
  * @type number
  * @decimals 2
@@ -17,7 +17,7 @@
  * @desc Define o multiplicador de dano do jogodor.
  * Padrão = 3
  * @default 3
- * 
+ *
  * @param Dano Inimigo Fácil
  * @type number
  * @decimals 2
@@ -25,10 +25,10 @@
  * @desc Define o multiplicador de dano do inimigo.
  * Padrão = 0.5
  * @default 0.5
- * 
+ *
  * @param Normal
  * @default
- * 
+ *
  * @param Dano Jogador Normal
  * @type number
  * @decimals 2
@@ -36,7 +36,7 @@
  * @desc Define o multiplicador de dano do jogodor.
  * Padrão = 3
  * @default 3
- * 
+ *
  * @param Dano Inimigo Normal
  * @type number
  * @decimals 2
@@ -44,10 +44,10 @@
  * @desc Define o multiplicador de dano do inimigo.
  * Padrão = 1
  * @default 1
- * 
+ *
  * @param Difícil
  * @default
- * 
+ *
  * @param Dano Jogador Difícil
  * @type number
  * @decimals 2
@@ -55,7 +55,7 @@
  * @desc Define o multiplicador de dano do jogodor.
  * Padrão = 2
  * @default 2
- * 
+ *
  * @param Dano Inimigo Difícil
  * @type number
  * @decimals 2
@@ -63,27 +63,27 @@
  * @desc Define o multiplicador de dano do inimigo.
  * Padrão = 2
  * @default 2
- * 
+ *
  * @param Variável
  * @type number
  * @min 1
  * @desc Define a variável do RPG Maker que será usada.
  * Padrão = 0001
  * @default 0001
- * 
+ *
  * @help
  * ============================================================================
  * Sobre
  * ============================================================================
  * Feito no RPG Maker MV 1.6.1.
  * Este plugin não tem comandos.
- * 
+ *
  * Ainda não sei como aplicar no jogo sem chamar o script
  * Preciso de ajuda.
  * ============================================================================
  * Changelog
  * ============================================================================
- * 
+ *
  * Versão 0.4.0-alpha
  */
 
@@ -126,7 +126,7 @@ EkDifficultyControl.ApplyDificulty = function (variable)
             Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierEasy;
             Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierEasy;
             break;
-    
+
         case 'NORMAL':
             Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierNormal;
             Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierNormal;
