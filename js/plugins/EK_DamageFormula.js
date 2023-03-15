@@ -30,6 +30,9 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 1.1.0-alpha:
+ * - Mudança teste no código.
+ * 
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
@@ -37,7 +40,8 @@
 var Evaark = Evaark || {};
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
-Evaark.DamageFormula.version = [1, 0, 0];
+Evaark.DamageFormula.version = [1, 1, 0];
+Evaark.DamageFormula.preRelese = "alpha";
 
 function EK_DamageFormula()
 {
