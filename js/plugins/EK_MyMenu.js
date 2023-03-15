@@ -17,12 +17,13 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 0.2.0-alpha
+ * Versão 0.2.0-testeMenu
  */
 var Evaark = Evaark || {};
 Evaark.CustomMenu = Evaark.CustomMenu || {};
 
 Evaark.CustomMenu.version = [0, 2, 0];
+Evaark.DamageFormula.preRelese = "testeMenu";
 
 Input.keyMapper['80'] = 'customMenu';
 
