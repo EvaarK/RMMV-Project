@@ -39,6 +39,35 @@ Evaark.DamageFormula = Evaark.DamageFormula || {};
 
 Evaark.DamageFormula.version = [1, 0, 0];
 
+function EK_DamageFormula()
+{
+    this.initialize.apply(this, arguments);
+}
+
+EK_DamageFormula.updateFormula = function(dataSkill)
+{
+    var noteSplited = dataSkill.note.split(/[\r\n]+/);
+    var isFormulaMode = false;
+    for (let ii = 0; ii < noteSplited.length; ii++)
+    {
+        var line = noteSplited[ii];
+        if (line.match(/<formula>/i))
+        {
+            isFormulaMode = true;
+            dataSkill.damage.formula = '';
+        }
+        else if (line.match(/<\/formula>/i))
+        {
+            isFormulaMode = false;
+            break;
+        }
+        else if (isFormulaMode)
+        {
+            dataSkill.damage.formula += line;
+        }
+    }
+}
+
 Evaark.DamageFormula.DataManager_isDatabaseLoaded = DataManager.isDatabaseLoaded;
 DataManager.isDatabaseLoaded = function()
 {
@@ -57,32 +86,10 @@ DataManager.ekCreateDamageFormula = function(dataSkills)
     for (let i = 1; i < dataSkills.length; i++)
     {
         var dataSkill = dataSkills[i];
-        if(dataSkill.meta.formula != true)
+        if(dataSkill.meta.formula)
         {
-            break;
+            EK_DamageFormula.updateFormula(dataSkill);
+            console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
-
-        var noteSplited = dataSkill.note.split(/[\r\n]+/);
-        var isFormulaMode = false;
-        for (let ii = 0; ii < noteSplited.length; ii++)
-        {
-            var line = noteSplited[ii];
-            if (line.match(/<formula>/i))
-            {
-                isFormulaMode = true;
-                dataSkill.damage.formula = '';
-            }
-            else if (line.match(/<\/formula>/i))
-            {
-                isFormulaMode = false;
-                break;
-            }
-            else if (isFormulaMode)
-            {
-                dataSkill.damage.formula = dataSkill.damage.formula + line + '\r\n';
-            }
-        }
-
-        //console.log('formula for ' + dataSkills[i].name + ': ' + dataSkill.damage.formula);
     }
 }
