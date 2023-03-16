@@ -38,13 +38,13 @@
  */
 
 var Evaark = Evaark || {};
-Evaark.Actives = Evaark.Actives || {};
-Evaark.Actives.damageFormula = true;
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.damageFormula = true;
 
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
 Evaark.DamageFormula.version = [1, 1, 0];
-Evaark.DamageFormula.preRelese = "alpha3";
+Evaark.DamageFormula.preRelese = "alpha4";
 
 function EkDamageFormula()
 {

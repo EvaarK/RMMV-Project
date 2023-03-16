@@ -31,17 +31,20 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 1.1.0:
+ * - Mudança no código.
+ * 
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
-Evaark.Actives = Evaark.Actives || {};
-Evaark.Actives.volumeOffset = true;
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.volumeOffset = true;
 
 Evaark.VolumeOffset = Evaark.VolumeOffset || {};
 
-Evaark.VolumeOffset.version = [1, 0, 0];
+Evaark.VolumeOffset.version = [1, 1, 0];
 
 Evaark.VolumeOffset.params = PluginManager.parameters('EK_VolumeOffset');
 

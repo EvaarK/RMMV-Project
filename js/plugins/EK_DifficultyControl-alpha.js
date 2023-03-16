@@ -84,16 +84,17 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 0.4.0-alpha
+ * Versão 0.1.0-alpha
  */
 
 var Evaark = Evaark || {};
-Evaark.Actives = Evaark.Actives || {};
-Evaark.Actives.difficultyControl = true;
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.difficultyControl = true;
 
 Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 
-Evaark.DifficultyControl.version = [0, 4, 0];
+Evaark.DifficultyControl.version = [0, 1, 0];
+Evaark.DifficultyControl.preRelese = "alpha5";
 
 Evaark.DifficultyControl.params = PluginManager.parameters('EK_DifficultyControl');
 

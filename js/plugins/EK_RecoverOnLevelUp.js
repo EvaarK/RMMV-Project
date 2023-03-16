@@ -17,17 +17,20 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 1.1.0:
+ * - Mudança no código.
+ * 
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
-Evaark.Actives = Evaark.Actives || {};
-Evaark.Actives.recoverOnLevelUp = true;
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.recoverOnLevelUp = true;
 
 Evaark.RecoverOnLevelUp = Evaark.RecoverOnLevelUp || {};
 
-Evaark.RecoverOnLevelUp.version = [1, 0, 0];
+Evaark.RecoverOnLevelUp.version = [1, 1, 0];
 
 Evaark.RecoverOnLevelUp.gameActorLevelUp = Game_Actor.prototype.levelUp;
 Game_Actor.prototype.levelUp = function()
