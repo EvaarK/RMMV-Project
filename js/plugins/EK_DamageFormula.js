@@ -38,46 +38,54 @@
  */
 
 var Evaark = Evaark || {};
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.damageFormula = true;
+
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
 Evaark.DamageFormula.version = [1, 1, 0];
-Evaark.DamageFormula.preRelese = "alpha2";
+Evaark.DamageFormula.preRelese = "alpha4";
 
-function EK_DamageFormula()
+function EkDamageFormula()
 {
     this.initialize.apply(this, arguments);
 }
 
-EK_DamageFormula.updateFormula = function(dataSkill)
+EkDamageFormula.replaceSpaces = function (text)
 {
-    let newNote = dataSkill.note.replace(/\r?\n|\r/g, '')
-        .replace(/	+/g, ' ')
-        .replace(/\  +/g, ' ');
-    let formulaMatch = new RegExp('<formula>(.*?)<\\/formula>', 'i').exec(newNote);
-    dataSkill.damage.formula = formulaMatch[1];
+    return text.replace(/\r?\n|\r/g, '')
+    .replace(/	+/g, ' ')
+    .replace(/\  +/g, ' ');
 }
 
-EK_DamageFormula.createDamageFormula = function(dataSkills)
+EkDamageFormula.updateFormula = function(dataSkill)
+{
+    let formulaMatch = new RegExp('<formula>[\\r\\n]?(.*?)<\\/formula>', 'is').exec(dataSkill.note);
+    let retorno = EkDamageFormula.replaceSpaces(formulaMatch[1]);
+    dataSkill.damage.formula = retorno;
+}
+
+EkDamageFormula.createDamageFormula = function(dataSkills)
 {
     for (let i = 1; i < dataSkills.length; i++)
     {
         let dataSkill = dataSkills[i];
         if(dataSkill.meta.formula)
         {
-            EK_DamageFormula.updateFormula(dataSkill);
+            EkDamageFormula.updateFormula(dataSkill);
             console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
     }
 }
 
-Evaark.DamageFormula.DataManager_isDatabaseLoaded = DataManager.isDatabaseLoaded;
+Evaark.DamageFormula.dataManagerIsDatabaseLoaded = DataManager.isDatabaseLoaded;
 DataManager.isDatabaseLoaded = function()
 {
-    Evaark.DamageFormula.DataManager_isDatabaseLoaded.call(this);
+    Evaark.DamageFormula.dataManagerIsDatabaseLoaded.call(this);
 
-    if (!Evaark._isLoaded_EK_DamageFormula) {
-        EK_DamageFormula.createDamageFormula($dataSkills);
-        Evaark._isLoaded_EK_DamageFormula = true;
+    if (!Evaark.isLoadedEkDamageFormula) {
+        EkDamageFormula.createDamageFormula($dataSkills);
+        Evaark.isLoadedEkDamageFormula = true;
     }
 
     return true;

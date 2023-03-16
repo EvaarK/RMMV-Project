@@ -24,15 +24,21 @@
  * ============================================================================
  * Changelog
  * ============================================================================
- *
+ * 
+ * Versão 1.1.0:
+ * - Mudança no código.
+ * 
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.criticalMultiplier = true;
+
 Evaark.CriticalMultiplier = Evaark.CriticalMultiplier || {};
 
-Evaark.CriticalMultiplier.version = [1, 0, 0];
+Evaark.CriticalMultiplier.version = [1, 1, 0];
 
 Evaark.CriticalMultiplier.params = PluginManager.parameters('EK_CriticalMultiplier');
 
@@ -40,6 +46,6 @@ Evaark.CriticalMultiplier.multiplier = Number(Evaark.CriticalMultiplier.params['
 
 Game_Action.prototype.applyCritical = function(damage)
 {
-    //console.log(damage * Evaark.CriticalMultiplier.multiplier);
+    console.log(damage * Evaark.CriticalMultiplier.multiplier);
     return damage * Evaark.CriticalMultiplier.multiplier;
 };
