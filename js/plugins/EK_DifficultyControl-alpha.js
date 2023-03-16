@@ -115,7 +115,7 @@ Scene_Load.prototype.onLoadSuccess = function()
     console.log('Chamando DifficultyControl');
     Evaark.DifficultyControl.sceneLoadOnLoadSuccess.call(this);
 
-    EkDifficultyControl.applyDificulty(Evaark.DifficultyControl.difficultyVariable);
+    EkDifficultyControl.applyDifficulty(Evaark.DifficultyControl.difficultyVariable);
 }
 
 function EkDifficultyControl()
@@ -123,7 +123,7 @@ function EkDifficultyControl()
     this.initialize.apply(this, arguments);
 }
 
-EkDifficultyControl.applyDificulty = function (variable)
+EkDifficultyControl.applyDifficulty = function (variable)
 {
     switch ($gameVariables.value(variable)) {
         case 'EASY':
