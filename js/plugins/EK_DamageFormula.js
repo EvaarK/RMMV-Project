@@ -41,7 +41,7 @@ var Evaark = Evaark || {};
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
 Evaark.DamageFormula.version = [1, 1, 0];
-Evaark.DamageFormula.preRelese = "alpha";
+Evaark.DamageFormula.preRelese = "alpha1";
 
 function EK_DamageFormula()
 {
@@ -50,24 +50,22 @@ function EK_DamageFormula()
 
 EK_DamageFormula.updateFormula = function(dataSkill)
 {
-    var noteSplited = dataSkill.note.split(/[\r\n]+/);
-    var isFormulaMode = false;
-    for (let ii = 0; ii < noteSplited.length; ii++)
+    let newNote = dataSkill.note.replace(/\r?\n|\r/g, '')
+        .replace(/	+/g, ' ')
+        .replace(/\  +/g, ' ');
+    let formulaMatch = new RegExp('<formula>(.*?)<\\/formula>', 'i').exec(newNote);
+    dataSkill.damage.formula = formulaMatch[1];
+}
+
+EK_DamageFormula.ekCreateDamageFormula = function(dataSkills)
+{
+    for (let i = 1; i < dataSkills.length; i++)
     {
-        var line = noteSplited[ii];
-        if (line.match(/<formula>/i))
+        let dataSkill = dataSkills[i];
+        if(dataSkill.meta.formula)
         {
-            isFormulaMode = true;
-            dataSkill.damage.formula = '';
-        }
-        else if (line.match(/<\/formula>/i))
-        {
-            isFormulaMode = false;
-            break;
-        }
-        else if (isFormulaMode)
-        {
-            dataSkill.damage.formula += line;
+            EK_DamageFormula.updateFormula(dataSkill);
+            console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
     }
 }
@@ -78,22 +76,9 @@ DataManager.isDatabaseLoaded = function()
     Evaark.DamageFormula.DataManager_isDatabaseLoaded.call(this);
 
     if (!Evaark._isLoaded_EK_DamageFormula) {
-        this.ekCreateDamageFormula($dataSkills);
+        EK_DamageFormula.ekCreateDamageFormula($dataSkills);
         Evaark._isLoaded_EK_DamageFormula = true;
     }
 
     return true;
-}
-
-DataManager.ekCreateDamageFormula = function(dataSkills)
-{
-    for (let i = 1; i < dataSkills.length; i++)
-    {
-        var dataSkill = dataSkills[i];
-        if(dataSkill.meta.formula)
-        {
-            EK_DamageFormula.updateFormula(dataSkill);
-            console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
-        }
-    }
 }
