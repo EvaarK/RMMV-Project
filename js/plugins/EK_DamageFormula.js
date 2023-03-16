@@ -44,7 +44,7 @@ Evaark.Imported.damageFormula = true;
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
 Evaark.DamageFormula.version = [1, 1, 0];
-Evaark.DamageFormula.preRelese = "alpha5";
+Evaark.DamageFormula.preRelese = "alpha6";
 
 let ekDataManagerIsDatabaseLoaded = DataManager.isDatabaseLoaded;
 
@@ -84,10 +84,11 @@ DataManager.isDatabaseLoaded = function()
 {
     ekDataManagerIsDatabaseLoaded.call(this);
 
-    if (Evaark.Imported.damageFormula)
+    if (!Evaark.isLoadedEkDamageFormula)
     {
         EkDamageFormula.createDamageFormula($dataSkills);
+        Evaark.isLoadedEkDamageFormula = true;
     }
-
+    
     return true;
 }
