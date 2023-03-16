@@ -6,33 +6,33 @@
  * @target MV
  * @plugindesc Usa Nota para formula de dano.
  * @author EvaarK
- * 
+ *
  * @help
  * ============================================================================
  * Sobre
  * ============================================================================
  * Feito no RPG Maker MV 1.6.1.
  * Este plugin não tem comandos.
- * 
+ *
  * Para usar a Nota em Habilidades como formula de dano use:
  * <formula>
  * a.atk * 4 - b.def * 2
  * </formula>
- * 
+ *
  * Também suporta códigos em JavaScript:
  * <formula>
- * var multiplicadorA = 4; //Importante usar ponto e vírgula
- * var multiplicadorB = 2;
+ * let multiplicadorA = 4; //Importante usar ponto e vírgula
+ * let multiplicadorB = 2;
  * a.atk * multiplicadorA - b.def * multiplicadorB;
  * </formula>
- * 
+ *
  * ============================================================================
  * Changelog
  * ============================================================================
- * 
+ *
  * Versão 1.1.0-alpha:
  * - Mudança teste no código.
- * 
+ *
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
@@ -44,7 +44,7 @@ Evaark.Imported.damageFormula = true;
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
 Evaark.DamageFormula.version = [1, 1, 0];
-Evaark.DamageFormula.preRelese = "alpha6";
+Evaark.DamageFormula.preRelese = "alpha7";
 
 let ekDataManagerIsDatabaseLoaded = DataManager.isDatabaseLoaded;
 
@@ -56,8 +56,8 @@ function EkDamageFormula()
 EkDamageFormula.replaceSpaces = function (text)
 {
     return text.replace(/\r?\n|\r/g, '')
-    .replace(/	+/g, ' ')
-    .replace(/\  +/g, ' ');
+        .replace(/\s\s+/g, ' ')
+        .replace(/\t+/g, ' ');
 }
 
 EkDamageFormula.updateFormula = function(dataSkill)
@@ -89,6 +89,6 @@ DataManager.isDatabaseLoaded = function()
         EkDamageFormula.createDamageFormula($dataSkills);
         Evaark.isLoadedEkDamageFormula = true;
     }
-    
+
     return true;
 }
