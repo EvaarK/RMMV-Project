@@ -17,20 +17,23 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 0.2.0-testeMenu
+ * Versão 0.1.0-testeMenu
  */
 var Evaark = Evaark || {};
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.customMenu = true;
+
 Evaark.CustomMenu = Evaark.CustomMenu || {};
 
-Evaark.CustomMenu.version = [0, 2, 0];
-Evaark.DamageFormula.preRelese = "testeMenu";
+Evaark.CustomMenu.version = [0, 1, 0];
+Evaark.DamageFormula.preRelese = "testeMenu3";
 
 Input.keyMapper['80'] = 'customMenu';
 
-Evaark.CustomMenu.Scene_Map_update = Scene_Map.prototype.update;
+Evaark.CustomMenu.sceneMapUpdate = Scene_Map.prototype.update;
 Scene_Map.prototype.update = function()
 {
-    Evaark.CustomMenu.Scene_Map_update.call(this);
+    Evaark.CustomMenu.sceneMapUpdate.call(this);
     if (Input.isTriggered('customMenu'))
     {
         SceneManager.push(Scene_CustomMenu);
