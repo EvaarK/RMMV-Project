@@ -55,14 +55,14 @@ function EkDamageFormula()
 
 EkDamageFormula.replaceVarToLet = function (text)
 {
-    return text.replace(/var\s/g, 'let\s');
+    return text.replace(/var\s/g, 'let ');
 }
 
 EkDamageFormula.replaceSpaces = function (text)
 {
     let retorno = text.replace(/\r?\n|\r/g, '')
-    .replace(/\s\s+/g, '\s')
-    .replace(/\t+/g, '\s');
+    .replace(/\s\s+/g, ' ')
+    .replace(/\t+/g, ' ');
     
     return EkDamageFormula.replaceVarToLet(retorno);
 }
@@ -81,6 +81,7 @@ EkDamageFormula.createDamageFormula = function(dataSkills)
         let dataSkill = dataSkills[i];
         if(dataSkill.meta.formula)
         {
+            debugger;
             EkDamageFormula.updateFormula(dataSkill);
             console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
