@@ -53,11 +53,18 @@ function EkDamageFormula()
     this.initialize.apply(this, arguments);
 }
 
+EkDamageFormula.replaceVarToLet = function (text)
+{
+    return text.replace(/var\s/g, 'let\s');
+}
+
 EkDamageFormula.replaceSpaces = function (text)
 {
-    return text.replace(/\r?\n|\r/g, '')
-        .replace(/\s\s+/g, ' ')
-        .replace(/\t+/g, ' ');
+    let retorno = text.replace(/\r?\n|\r/g, '')
+    .replace(/\s\s+/g, '\s')
+    .replace(/\t+/g, '\s');
+    
+    return EkDamageFormula.replaceVarToLet(retorno);
 }
 
 EkDamageFormula.updateFormula = function(dataSkill)
