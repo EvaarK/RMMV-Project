@@ -53,11 +53,18 @@ function EkDamageFormula()
     this.initialize.apply(this, arguments);
 }
 
+EkDamageFormula.replaceVarToLet = function (text)
+{
+    return text.replace(/var\s/g, 'let ');
+}
+
 EkDamageFormula.replaceSpaces = function (text)
 {
-    return text.replace(/\r?\n|\r/g, '')
-        .replace(/\s\s+/g, ' ')
-        .replace(/\t+/g, ' ');
+    let retorno = text.replace(/\r?\n|\r/g, '')
+    .replace(/\s\s+/g, ' ')
+    .replace(/\t+/g, ' ');
+    
+    return EkDamageFormula.replaceVarToLet(retorno);
 }
 
 EkDamageFormula.updateFormula = function(dataSkill)
@@ -74,6 +81,7 @@ EkDamageFormula.createDamageFormula = function(dataSkills)
         let dataSkill = dataSkills[i];
         if(dataSkill.meta.formula)
         {
+            debugger;
             EkDamageFormula.updateFormula(dataSkill);
             console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
