@@ -88,6 +88,9 @@
  */
 
 var Evaark = Evaark || {};
+Evaark.Actives = Evaark.Actives || {};
+Evaark.Actives.difficultyControl = true;
+
 Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 
 Evaark.DifficultyControl.version = [0, 4, 0];
@@ -105,13 +108,13 @@ Evaark.DifficultyControl.difficultyVariable = Number(Evaark.DifficultyControl.pa
 Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierEasy;
 Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierEasy;
 
-Evaark.DifficultyControl.Scene_Load_onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
+Evaark.DifficultyControl.sceneLoadOnLoadSuccess = Scene_Load.prototype.onLoadSuccess;
 Scene_Load.prototype.onLoadSuccess = function()
 {
     console.log('Chamando DifficultyControl');
-    Evaark.DifficultyControl.Scene_Load_onLoadSuccess.call(this);
+    Evaark.DifficultyControl.sceneLoadOnLoadSuccess.call(this);
 
-    EkDifficultyControl.ApplyDificulty(Evaark.DifficultyControl.difficultyVariable);
+    EkDifficultyControl.applyDificulty(Evaark.DifficultyControl.difficultyVariable);
 }
 
 function EkDifficultyControl()
@@ -119,7 +122,7 @@ function EkDifficultyControl()
     this.initialize.apply(this, arguments);
 }
 
-EkDifficultyControl.ApplyDificulty = function (variable)
+EkDifficultyControl.applyDificulty = function (variable)
 {
     switch ($gameVariables.value(variable)) {
         case 'EASY':

@@ -22,14 +22,18 @@
  */
 
 var Evaark = Evaark || {};
+Evaark.Actives = Evaark.Actives || {};
+Evaark.Actives.recoverOnLevelUp = true;
+
 Evaark.RecoverOnLevelUp = Evaark.RecoverOnLevelUp || {};
 
 Evaark.RecoverOnLevelUp.version = [1, 0, 0];
 
-Evaark.RecoverOnLevelUp.Game_Actor_levelUp = Game_Actor.prototype.levelUp;
-Game_Actor.prototype.levelUp = function() {
-    Evaark.RecoverOnLevelUp.Game_Actor_levelUp.call(this);
+Evaark.RecoverOnLevelUp.gameActorLevelUp = Game_Actor.prototype.levelUp;
+Game_Actor.prototype.levelUp = function()
+{
+    Evaark.RecoverOnLevelUp.gameActorLevelUp.call(this);
 
     this.recoverAll();
-    //console.log('Recuperando ' + this.name() + '[' + this.level + ']' + ' no Level up');
+    console.log('Recuperando ' + this.name() + '[' + this.level + ']' + ' no Level up');
 }

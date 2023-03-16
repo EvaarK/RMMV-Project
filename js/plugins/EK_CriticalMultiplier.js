@@ -30,6 +30,9 @@
  */
 
 var Evaark = Evaark || {};
+Evaark.Actives = Evaark.Actives || {};
+Evaark.Actives.criticalMultiplier = true;
+
 Evaark.CriticalMultiplier = Evaark.CriticalMultiplier || {};
 
 Evaark.CriticalMultiplier.version = [1, 0, 0];
@@ -40,6 +43,6 @@ Evaark.CriticalMultiplier.multiplier = Number(Evaark.CriticalMultiplier.params['
 
 Game_Action.prototype.applyCritical = function(damage)
 {
-    //console.log(damage * Evaark.CriticalMultiplier.multiplier);
+    console.log(damage * Evaark.CriticalMultiplier.multiplier);
     return damage * Evaark.CriticalMultiplier.multiplier;
 };

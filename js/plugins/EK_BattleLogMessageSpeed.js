@@ -36,6 +36,9 @@
  */
 
 var Evaark = Evaark || {};
+Evaark.Actives = Evaark.Actives || {};
+Evaark.Actives.battleLogMessageSpeed = true;
+
 Evaark.BattleLogMessageSpeed = Evaark.BattleLogMessageSpeed || {};
 
 Evaark.BattleLogMessageSpeed.version = [1, 0, 0];
