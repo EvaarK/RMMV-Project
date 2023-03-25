@@ -39,5 +39,5 @@ Game_Actor.prototype.levelUp = function()
     Evaark.RecoverOnLevelUp.gameActor_LevelUp.call(this);
 
     this.recoverAll();
-    //console.log('Recuperando ' + this.name() + '[' + this.level + ']' + ' no Level up');
+    console.log('Recuperando ' + this.name() + '[' + this.level + ']' + ' no Level up');
 }

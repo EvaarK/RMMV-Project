@@ -83,7 +83,7 @@ EkDamageFormula.createDamageFormula = function(dataSkills)
         {
             debugger;
             EkDamageFormula.updateFormula(dataSkill);
-            //console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
+            console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
     }
 }
