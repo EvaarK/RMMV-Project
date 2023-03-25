@@ -56,10 +56,10 @@ Window_Options.prototype.volumeOffset = function()
     if (Input.isPressed(Input.keyMapper[16]))
     {
         let returno = Evaark.VolumeOffset.value * Evaark.VolumeOffset.multiplier;
-        console.log((returno) + " " + Input.isPressed(Input.keyMapper[16]));
+        //console.log((returno) + " " + Input.isPressed(Input.keyMapper[16]));
         return returno;
     }
     
-    console.log(Evaark.VolumeOffset.value + " " + Input.isPressed(Input.keyMapper[16]));
+    //console.log(Evaark.VolumeOffset.value + " " + Input.isPressed(Input.keyMapper[16]));
     return Evaark.VolumeOffset.value;
 }
