@@ -31,14 +31,20 @@
  * Changelog
  * ============================================================================
  * 
+ * Versão 1.1.0:
+ * - Mudança no código.
+ * 
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.battleLogMessageSpeed = true;
+
 Evaark.BattleLogMessageSpeed = Evaark.BattleLogMessageSpeed || {};
 
-Evaark.BattleLogMessageSpeed.version = [1, 0, 0];
+Evaark.BattleLogMessageSpeed.version = [1, 1, 0];
 
 Evaark.BattleLogMessageSpeed.params = PluginManager.parameters('EK_BattleLogMessageSpeed');
 

@@ -84,13 +84,17 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 0.4.0-alpha
+ * Versão 0.1.0-alpha
  */
 
 var Evaark = Evaark || {};
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.difficultyControl = true;
+
 Evaark.DifficultyControl = Evaark.DifficultyControl || {};
 
-Evaark.DifficultyControl.version = [0, 4, 0];
+Evaark.DifficultyControl.version = [0, 1, 0];
+Evaark.DifficultyControl.preRelese = "alpha5";
 
 Evaark.DifficultyControl.params = PluginManager.parameters('EK_DifficultyControl');
 
@@ -105,13 +109,13 @@ Evaark.DifficultyControl.difficultyVariable = Number(Evaark.DifficultyControl.pa
 Evaark.DifficultyControl.playerMultiplier = Evaark.DifficultyControl.playerMultiplierEasy;
 Evaark.DifficultyControl.enemyMultiplier = Evaark.DifficultyControl.enemyMultiplierEasy;
 
-Evaark.DifficultyControl.Scene_Load_onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
+Evaark.DifficultyControl.sceneLoadOnLoadSuccess = Scene_Load.prototype.onLoadSuccess;
 Scene_Load.prototype.onLoadSuccess = function()
 {
     console.log('Chamando DifficultyControl');
-    Evaark.DifficultyControl.Scene_Load_onLoadSuccess.call(this);
+    Evaark.DifficultyControl.sceneLoadOnLoadSuccess.call(this);
 
-    EkDifficultyControl.ApplyDificulty(Evaark.DifficultyControl.difficultyVariable);
+    EkDifficultyControl.applyDifficulty(Evaark.DifficultyControl.difficultyVariable);
 }
 
 function EkDifficultyControl()
@@ -119,7 +123,7 @@ function EkDifficultyControl()
     this.initialize.apply(this, arguments);
 }
 
-EkDifficultyControl.ApplyDificulty = function (variable)
+EkDifficultyControl.applyDifficulty = function (variable)
 {
     switch ($gameVariables.value(variable)) {
         case 'EASY':

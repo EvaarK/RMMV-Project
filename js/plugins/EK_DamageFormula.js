@@ -6,83 +6,97 @@
  * @target MV
  * @plugindesc Usa Nota para formula de dano.
  * @author EvaarK
- * 
+ *
  * @help
  * ============================================================================
  * Sobre
  * ============================================================================
  * Feito no RPG Maker MV 1.6.1.
  * Este plugin não tem comandos.
- * 
+ *
  * Para usar a Nota em Habilidades como formula de dano use:
  * <formula>
  * a.atk * 4 - b.def * 2
  * </formula>
- * 
+ *
  * Também suporta códigos em JavaScript:
  * <formula>
- * var multiplicadorA = 4; //Importante usar ponto e vírgula
- * var multiplicadorB = 2;
+ * let multiplicadorA = 4; //Importante usar ponto e vírgula
+ * let multiplicadorB = 2;
  * a.atk * multiplicadorA - b.def * multiplicadorB;
  * </formula>
- * 
+ *
  * ============================================================================
  * Changelog
  * ============================================================================
- * 
+ *
+ * Versão 1.1.0:
+ * - Mudança teste no código.
+ *
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
 
 var Evaark = Evaark || {};
+Evaark.Imported = Evaark.Imported || {};
+Evaark.Imported.damageFormula = true;
+
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
-Evaark.DamageFormula.version = [1, 0, 0];
+Evaark.DamageFormula.version = [1, 1, 0];
+//Evaark.DamageFormula.preRelese = "alpha1";
 
-Evaark.DamageFormula.DataManager_isDatabaseLoaded = DataManager.isDatabaseLoaded;
-DataManager.isDatabaseLoaded = function()
+let ek_DataManager_IsDatabaseLoaded = DataManager.isDatabaseLoaded;
+
+function EkDamageFormula()
 {
-    Evaark.DamageFormula.DataManager_isDatabaseLoaded.call(this);
-
-    if (!Evaark._isLoaded_EK_DamageFormula) {
-        this.ekCreateDamageFormula($dataSkills);
-        Evaark._isLoaded_EK_DamageFormula = true;
-    }
-
-    return true;
+    this.initialize.apply(this, arguments);
 }
 
-DataManager.ekCreateDamageFormula = function(dataSkills)
+EkDamageFormula.replaceVarToLet = function (text)
+{
+    return text.replace(/var\s/g, 'let ');
+}
+
+EkDamageFormula.replaceSpaces = function (text)
+{
+    let retorno = text.replace(/\r?\n|\r/g, '')
+    .replace(/\s\s+/g, ' ')
+    .replace(/\t+/g, ' ');
+    
+    return EkDamageFormula.replaceVarToLet(retorno);
+}
+
+EkDamageFormula.updateFormula = function(dataSkill)
+{
+    let formulaMatch = new RegExp('<formula>[\\r\\n]?(.*?)<\\/formula>', 'is').exec(dataSkill.note);
+    let retorno = EkDamageFormula.replaceSpaces(formulaMatch[1]);
+    dataSkill.damage.formula = retorno;
+}
+
+EkDamageFormula.createDamageFormula = function(dataSkills)
 {
     for (let i = 1; i < dataSkills.length; i++)
     {
-        var dataSkill = dataSkills[i];
-        if(dataSkill.meta.formula != true)
+        let dataSkill = dataSkills[i];
+        if(dataSkill.meta.formula)
         {
-            break;
+            debugger;
+            EkDamageFormula.updateFormula(dataSkill);
+            //console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
-
-        var noteSplited = dataSkill.note.split(/[\r\n]+/);
-        var isFormulaMode = false;
-        for (let ii = 0; ii < noteSplited.length; ii++)
-        {
-            var line = noteSplited[ii];
-            if (line.match(/<formula>/i))
-            {
-                isFormulaMode = true;
-                dataSkill.damage.formula = '';
-            }
-            else if (line.match(/<\/formula>/i))
-            {
-                isFormulaMode = false;
-                break;
-            }
-            else if (isFormulaMode)
-            {
-                dataSkill.damage.formula = dataSkill.damage.formula + line + '\r\n';
-            }
-        }
-
-        //console.log('formula for ' + dataSkills[i].name + ': ' + dataSkill.damage.formula);
     }
+}
+
+DataManager.isDatabaseLoaded = function()
+{
+    ek_DataManager_IsDatabaseLoaded.call(this);
+
+    if (!Evaark.isLoadedEkDamageFormula)
+    {
+        EkDamageFormula.createDamageFormula($dataSkills);
+        Evaark.isLoadedEkDamageFormula = true;
+    }
+
+    return true;
 }
