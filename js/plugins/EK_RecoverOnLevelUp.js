@@ -32,10 +32,10 @@ Evaark.RecoverOnLevelUp = Evaark.RecoverOnLevelUp || {};
 
 Evaark.RecoverOnLevelUp.version = [1, 1, 0];
 
-Evaark.RecoverOnLevelUp.gameActorLevelUp = Game_Actor.prototype.levelUp;
+Evaark.RecoverOnLevelUp.gameActor_LevelUp = Game_Actor.prototype.levelUp;
 Game_Actor.prototype.levelUp = function()
 {
-    Evaark.RecoverOnLevelUp.gameActorLevelUp.call(this);
+    Evaark.RecoverOnLevelUp.gameActor_LevelUp.call(this);
 
     this.recoverAll();
     console.log('Recuperando ' + this.name() + '[' + this.level + ']' + ' no Level up');
