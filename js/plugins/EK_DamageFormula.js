@@ -30,7 +30,7 @@
  * Changelog
  * ============================================================================
  *
- * Versão 1.1.0-alpha:
+ * Versão 1.1.0:
  * - Mudança teste no código.
  *
  * Versão 1.0.0:
@@ -44,7 +44,7 @@ Evaark.Imported.damageFormula = true;
 Evaark.DamageFormula = Evaark.DamageFormula || {};
 
 Evaark.DamageFormula.version = [1, 1, 0];
-Evaark.DamageFormula.preRelese = "alpha8";
+//Evaark.DamageFormula.preRelese = "alpha1";
 
 let ek_DataManager_IsDatabaseLoaded = DataManager.isDatabaseLoaded;
 
@@ -83,7 +83,7 @@ EkDamageFormula.createDamageFormula = function(dataSkills)
         {
             debugger;
             EkDamageFormula.updateFormula(dataSkill);
-            console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
+            //console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
         }
     }
 }

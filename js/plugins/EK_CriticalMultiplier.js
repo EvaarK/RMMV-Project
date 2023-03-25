@@ -46,6 +46,6 @@ Evaark.CriticalMultiplier.multiplier = Number(Evaark.CriticalMultiplier.params['
 
 Game_Action.prototype.applyCritical = function(damage)
 {
-    console.log(damage * Evaark.CriticalMultiplier.multiplier);
+    //console.log(damage * Evaark.CriticalMultiplier.multiplier);
     return damage * Evaark.CriticalMultiplier.multiplier;
 };

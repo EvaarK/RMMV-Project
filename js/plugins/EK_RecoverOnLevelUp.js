@@ -17,7 +17,7 @@
  * Changelog
  * ============================================================================
  * 
- * Versão 1.2.0-alpha:
+ * Versão 1.2.0:
  * - Mudança no código.
  * 
  * Versão 1.0.0:
@@ -31,7 +31,7 @@ Evaark.Imported.recoverOnLevelUp = true;
 Evaark.RecoverOnLevelUp = Evaark.RecoverOnLevelUp || {};
 
 Evaark.RecoverOnLevelUp.version = [1, 2, 0];
-Evaark.DamageFormula.preRelese = "alpha1";
+//Evaark.DamageFormula.preRelese = "alpha1";
 
 Evaark.RecoverOnLevelUp.gameActor_LevelUp = Game_Actor.prototype.levelUp;
 Game_Actor.prototype.levelUp = function()
@@ -39,5 +39,5 @@ Game_Actor.prototype.levelUp = function()
     Evaark.RecoverOnLevelUp.gameActor_LevelUp.call(this);
 
     this.recoverAll();
-    console.log('Recuperando ' + this.name() + '[' + this.level + ']' + ' no Level up');
+    //console.log('Recuperando ' + this.name() + '[' + this.level + ']' + ' no Level up');
 }
