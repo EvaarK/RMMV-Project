@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target":"ES5",
-    
   },
 
   "include": [
@@ -11,7 +10,8 @@
     "./plugins_dev/*.js",
     "./plugins/*.js",
     "plugins_dev/*.js",
-    "plugins/*.js"
+    "plugins/*.js",
+    "plugins/types/*.ts"
   ],
   "exclude": [
     "plugins_dev/*"
