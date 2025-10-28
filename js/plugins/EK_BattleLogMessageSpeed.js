@@ -55,7 +55,6 @@
  * - Lançamento Inicial.
  * ============================================================================
  */
-
 (() => {
   try {
     if (!Evaark.Imported.Core) {
@@ -63,13 +62,11 @@
     }
 
     if (Evaark.version.major != 1) {
-      throw new Error(
-        `Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`
-      );
+      throw new Error(`Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`);
     }
 
     /** @type {Evaark.BattleLogMessageSpeed} */
-    const mod = Evaark.createModule("BattleLogMessageSpeed", [1, 2, 0]);
+    const mod = Evaark.createModule("BattleLogMessageSpeed", [2, 0, 0]);
 
     const params = PluginManager.parameters("EK_BattleLogMessageSpeed");
 
