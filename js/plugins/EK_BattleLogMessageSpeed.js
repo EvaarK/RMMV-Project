@@ -46,7 +46,7 @@
  * v2.0.0:
  * - Utilização do EK_Core.
  * - Código reescrito.
- * - Melhoria na legibilidade e segurança.
+ * - Melhoria na legibilidade.
  *
  * v1.1.0:
  * - Mudança no código.
@@ -67,7 +67,6 @@
 
     /** @type {Evaark.BattleLogMessageSpeed} */
     const mod = Evaark.createModule("BattleLogMessageSpeed",new Evaark.Version(2, 0, 0));
-    localStorage.setItem("EK_BattleLogMessageSpeed-version",JSON.stringify(mod.version));
 
     const params = PluginManager.parameters("EK_BattleLogMessageSpeed");
 
@@ -112,6 +111,8 @@
     mod.main = function () {
       mod.setLogSpeed();
       mod.assertLogSpeed();
+
+      Evaark.log("BattleLogMessageSpeed", `Carregado com sucesso - ${mod.version}`);
     };
 
     mod.main();

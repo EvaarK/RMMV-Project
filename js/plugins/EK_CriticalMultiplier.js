@@ -4,7 +4,7 @@
 
 /*:
  * @target MV
- * @plugindesc Multiplicado de Dano Crítico.
+ * @plugindesc [2.0.0] Multiplicado de Dano Crítico.
  * @author EvaarK
  *
  * @param Multiplicador
@@ -19,33 +19,51 @@
  * ============================================================================
  * Sobre
  * ============================================================================
- * Feito no RPG Maker MV 1.6.1.
+ * Plugin para RPG Maker MV 1.6.3.
+ * 
  * Este plugin não tem comandos.
  * ============================================================================
  * Changelog
  * ============================================================================
- * 
- * Versão 1.1.0:
+ * v2.0.0:
+ * - Utilização do EK_Core.
+ * - Código reescrito.
+ * - Melhoria na legibilidade.
+ *
+ * v1.1.0:
  * - Mudança no código.
- * 
- * Versão 1.0.0:
+ *
+ * v1.0.0:
  * - Lançamento Inicial.
  */
+(function () {
+  try {
+    if (!Evaark.Imported.Core) {
+      throw new Error("Core não está instalado.");
+    }
 
-var Evaark = Evaark || {};
-Evaark.Imported = Evaark.Imported || {};
-Evaark.Imported.criticalMultiplier = true;
+    if (Evaark.version.major != 1) {
+      throw new Error(`Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`);
+    }
 
-Evaark.CriticalMultiplier = Evaark.CriticalMultiplier || {};
+    /** @type {Evaark.CriticalMultiplier} */
+    const mod = Evaark.createModule("CriticalMultiplier", new Evaark.Version(2, 0, 0));
 
-Evaark.CriticalMultiplier.version = [1, 1, 0];
+    const params = PluginManager.parameters("EK_CriticalMultiplier");
 
-Evaark.CriticalMultiplier.params = PluginManager.parameters('EK_CriticalMultiplier');
+    mod.multiplier = Number(params["Multiplicador"] || 3.0);
 
-Evaark.CriticalMultiplier.multiplier = Number(Evaark.CriticalMultiplier.params['Multiplicador'] || 3.00);
+    mod.main = function () {
+      Game_Action.prototype.applyCritical = function (damage) {
+        console.log(damage * Evaark.CriticalMultiplier.multiplier);
+        return damage * Evaark.CriticalMultiplier.multiplier;
+      };
 
-Game_Action.prototype.applyCritical = function(damage)
-{
-    console.log(damage * Evaark.CriticalMultiplier.multiplier);
-    return damage * Evaark.CriticalMultiplier.multiplier;
-};
+      Evaark.log("CriticalMultiplier", `Carregado com sucesso - ${mod.version}`);
+    };
+
+    mod.main();
+  } catch (err) {
+    console.error(err);
+  }
+})();
