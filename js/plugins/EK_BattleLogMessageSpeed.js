@@ -66,7 +66,7 @@
     }
 
     /** @type {Evaark.BattleLogMessageSpeed} */
-    const mod = Evaark.createModule("BattleLogMessageSpeed",new Evaark.Version(2, 0, 0));
+    const mod = Evaark.createModule("BattleLogMessageSpeed",new Evaark.Version(2, 0, 0, "beta"));
 
     const params = PluginManager.parameters("EK_BattleLogMessageSpeed");
 

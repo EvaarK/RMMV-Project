@@ -4,14 +4,15 @@
 
 /*:
  * @target MV
- * @plugindesc Usa Nota para formula de dano.
+ * @plugindesc [2.0.0] Usa Nota para formula de dano.
  * @author EvaarK
  *
  * @help
  * ============================================================================
  * Sobre
  * ============================================================================
- * Feito no RPG Maker MV 1.6.1.
+ * Plugin para RPG Maker MV 1.6.3.
+ *
  * Este plugin não tem comandos.
  *
  * Para usar a Nota em Habilidades como formula de dano use:
@@ -29,6 +30,10 @@
  * ============================================================================
  * Changelog
  * ============================================================================
+ * v2.0.0:
+ * - Utilização do EK_Core.
+ * - Código reescrito.
+ * - Melhoria na legibilidade.
  *
  * Versão 1.1.0:
  * - Mudança teste no código.
@@ -36,67 +41,70 @@
  * Versão 1.0.0:
  * - Lançamento Inicial.
  */
+(function () {
+  try {
+    if (!Evaark.Imported.Core) {
+      throw new Error("Core não está instalado.");
+    }
 
-var Evaark = Evaark || {};
-Evaark.Imported = Evaark.Imported || {};
-Evaark.Imported.damageFormula = true;
+    if (Evaark.version.major != 1) {
+      throw new Error(
+        `Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`
+      );
+    }
 
-Evaark.DamageFormula = Evaark.DamageFormula || {};
+    /** @type {Evaark.DamageFormula} */
+    const mod = Evaark.createModule("DamageFormula", new Evaark.Version(2, 0, 0, "beta"));
 
-Evaark.DamageFormula.version = [1, 1, 0];
-//Evaark.DamageFormula.preRelese = "alpha1";
+    const _DataManager_IsDatabaseLoaded = DataManager.isDatabaseLoaded;
 
-let ek_DataManager_IsDatabaseLoaded = DataManager.isDatabaseLoaded;
+    mod.replaceVarToLet = function (text) {
+      return text.replace(/var\s/gi, "let ");
+    };
 
-function EkDamageFormula()
-{
-    this.initialize.apply(this, arguments);
-}
+    mod.replaceSpaces = function (text) {
+      let retorno = text
+        .replace(/\r?\n|\r/g, "")
+        .replace(/\s\s+/g, " ")
+        .replace(/\t+/g, " ");
 
-EkDamageFormula.replaceVarToLet = function (text)
-{
-    return text.replace(/var\s/g, 'let ');
-}
+      return mod.replaceVarToLet(retorno);
+    };
 
-EkDamageFormula.replaceSpaces = function (text)
-{
-    let retorno = text.replace(/\r?\n|\r/g, '')
-    .replace(/\s\s+/g, ' ')
-    .replace(/\t+/g, ' ');
-    
-    return EkDamageFormula.replaceVarToLet(retorno);
-}
+    mod.updateFormula = function (dataSkill) {
+      let formulaMatch = /<formula>(?<formula>[\s\S]*?)<\/formula>/i.exec(dataSkill.note);
+      let retorno = mod.replaceSpaces(formulaMatch.groups["formula"]);
+      dataSkill.damage.formula = retorno;
+    };
 
-EkDamageFormula.updateFormula = function(dataSkill)
-{
-    let formulaMatch = new RegExp('<formula>[\\r\\n]?(.*?)<\\/formula>', 'is').exec(dataSkill.note);
-    let retorno = EkDamageFormula.replaceSpaces(formulaMatch[1]);
-    dataSkill.damage.formula = retorno;
-}
-
-EkDamageFormula.createDamageFormula = function(dataSkills)
-{
-    for (let i = 1; i < dataSkills.length; i++)
-    {
+    mod.createDamageFormula = function (dataSkills) {
+      for (let i = 1; i < dataSkills.length; i++) {
         let dataSkill = dataSkills[i];
-        if(dataSkill.meta.formula)
-        {
-            debugger;
-            EkDamageFormula.updateFormula(dataSkill);
-            console.log('formula for ' + dataSkill.name + ': ' + dataSkill.damage.formula);
+        if (dataSkill.meta.formula) {
+          mod.updateFormula(dataSkill);
+          Evaark.debug("DamageFormula", `Formula para habilidade '${dataSkill.name}': ${dataSkill.damage.formula}`
+          );
         }
-    }
-}
+      }
+    };
 
-DataManager.isDatabaseLoaded = function()
-{
-    ek_DataManager_IsDatabaseLoaded.call(this);
+    mod.main = function () {
+      DataManager.isDatabaseLoaded = function () {
+        _DataManager_IsDatabaseLoaded.call(this);
 
-    if (!Evaark.isLoadedEkDamageFormula)
-    {
-        EkDamageFormula.createDamageFormula($dataSkills);
-        Evaark.isLoadedEkDamageFormula = true;
-    }
+        if (!mod.isLoadedEkDamageFormula) {
+          mod.createDamageFormula($dataSkills);
+          mod.isLoadedEkDamageFormula = true;
+        }
 
-    return true;
-}
+        return true;
+      };
+
+      Evaark.log("DamageFormula", `Carregado com sucesso - ${mod.version}`);
+    };
+
+    mod.main();
+  } catch (err) {
+    console.error(err);
+  }
+})();

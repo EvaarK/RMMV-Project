@@ -33,17 +33,23 @@
     Evaark.Imported = Evaark.Imported || {};
     Evaark.Imported.Core = true;
 
-    Evaark.Version = function (major, minor, patch) {
+    Evaark.Version = function (major, minor, patch, preRelease, build) {
       this.major = major || 1;
       this.minor = minor || 0;
       this.patch = patch || 0;
+
+      if (preRelease) this.preRelease = `-${preRelease}`
+      if (build) this.build = `+${build}`
     };
 
     Evaark.Version.prototype.toString = function () {
-      return `v${this.major}.${this.minor}.${this.patch}`;
+      let version = `v${this.major}.${this.minor}.${this.patch}`;
+      if (this.preRelease) version += this.preRelease;
+      if (this.build) version += this.build;
+      return version;
     };
 
-    Evaark.version = new Evaark.Version(1, 0, 0);
+    Evaark.version = new Evaark.Version(1, 0, 0, "beta");
 
     Evaark.debug = function (name, message) {
       console.debug(`[EK_${name}] DEBUG: ${message}`);

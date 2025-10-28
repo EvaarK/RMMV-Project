@@ -47,7 +47,7 @@
     }
 
     /** @type {Evaark.CriticalMultiplier} */
-    const mod = Evaark.createModule("CriticalMultiplier", new Evaark.Version(2, 0, 0));
+    const mod = Evaark.createModule("CriticalMultiplier", new Evaark.Version(2, 0, 0, "beta"));
 
     const params = PluginManager.parameters("EK_CriticalMultiplier");
 
