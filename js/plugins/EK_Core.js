@@ -23,11 +23,14 @@
  * - Lançamento Inicial.
  * ============================================================================
  */
-(() => {
+(function () {
   console.log(`[EK_Core] Carregando...`);
 
   window.Evaark = window.Evaark || {};
   const Evaark = window.Evaark;
+
+  Evaark.Imported = Evaark.Imported || {};
+  Evaark.Imported.Core = true;
 
   Evaark.Version = function (major, minor, patch) {
     this.major = major || 1;
@@ -38,6 +41,9 @@
   Evaark.Version.prototype.toString = function () {
     return `v${this.major}.${this.minor}.${this.patch}`;
   };
+
+  Evaark.version = new Evaark.Version(1, 0, 0);
+  localStorage.setItem("EK_Core-version", JSON.stringify(Evaark.version));
 
   Evaark.debug = function (name, message) {
     console.debug(`[EK_${name}] DEBUG: ${message}`);
@@ -51,17 +57,23 @@
     console.error(`[EK_${name}] ERRO: ${message}`);
   };
 
-  Evaark.version = new Evaark.Version(1, 0, 0);
-
-  Evaark.Imported = Evaark.Imported || {};
-  Evaark.Imported.Core = true;
-
   Evaark.createModule = function (name, version) {
     this[name] = this[name] || {};
-    this[name].version = version || [0, 0, 0];
+    this[name].version = version || new Evaark.Version(0, 0, 0);
     this.Imported[name] = true;
     return this[name];
   };
 
-  Evaark.log("Core",`Carregado com sucesso - ${Evaark.version}`);
+  Evaark.timesRun = function () {
+    let vezesIniciado = Number(localStorage.getItem("EK-vezesIniciado"));
+    if (!vezesIniciado || isNaN(vezesIniciado)) vezesIniciado = 0;
+    localStorage.setItem("EK-vezesIniciado", ++vezesIniciado);
+  };
+
+  Evaark.main = function () {
+    Evaark.timesRun();
+    Evaark.log("Core", `Carregado com sucesso - ${Evaark.version}`);
+  };
+
+  Evaark.main();
 })();

@@ -34,7 +34,7 @@
  * ============================================================================
  * Plugin para RPG Maker MV 1.6.3.
  * Modifica a velocidade das mensagens exibidas no log de batalha.
- * 
+ *
  * Qualquer valor abaixo de 0 informado na opção Personalizado,
  * será desconsiderado.
  *
@@ -55,7 +55,7 @@
  * - Lançamento Inicial.
  * ============================================================================
  */
-(() => {
+(function () {
   try {
     if (!Evaark.Imported.Core) {
       throw new Error("Core não está instalado.");
@@ -66,7 +66,8 @@
     }
 
     /** @type {Evaark.BattleLogMessageSpeed} */
-    const mod = Evaark.createModule("BattleLogMessageSpeed", [2, 0, 0]);
+    const mod = Evaark.createModule("BattleLogMessageSpeed",new Evaark.Version(2, 0, 0));
+    localStorage.setItem("EK_BattleLogMessageSpeed-version",JSON.stringify(mod.version));
 
     const params = PluginManager.parameters("EK_BattleLogMessageSpeed");
 
@@ -75,7 +76,7 @@
 
     const _Window_BattleLog_messageSpeed = Window_BattleLog.prototype.messageSpeed;
 
-    mod.resolveSpeed = () => {
+    mod.resolveSpeed = function () {
       switch (mod.speed) {
         case 0: return 8;
         case 2: return 32;
@@ -84,32 +85,36 @@
       }
     };
 
-    mod.setLogSpeed = () => {
+    mod.setLogSpeed = function () {
       mod.logSpeed = mod.resolveSpeed();
-      Evaark.debug(
-        "BattleLogMessageSpeed",
-        `Velocidade do log: ${mod.logSpeed}`
-      );
+      Evaark.debug("BattleLogMessageSpeed", `Velocidade do log: ${mod.logSpeed}`);
 
       Window_BattleLog.prototype.messageSpeed = function () {
         return mod.logSpeed || _Window_BattleLog_messageSpeed.call(this);
       };
-    }
+    };
 
-    mod.assertLogSpeed = () => {
+    mod.assertLogSpeed = function () {
       let actual = Window_BattleLog.prototype.messageSpeed();
       let expected = mod.logSpeed;
 
       if (actual !== expected) {
-        Evaark.error("BattleLogMessageSpeed", `messageSpeed retornou  ${actual}, mas o esperado era ${expected}`);
+        Evaark.error(
+          "BattleLogMessageSpeed",
+          `messageSpeed retornou  ${actual}, mas o esperado era ${expected}`
+        );
         Window_BattleLog.prototype.messageSpeed = _Window_BattleLog_messageSpeed;
 
         throw new Error("Erro em EK_BattleLogMessageSpeed.js");
       }
     };
 
-    mod.setLogSpeed();
-    mod.assertLogSpeed();
+    mod.main = function () {
+      mod.setLogSpeed();
+      mod.assertLogSpeed();
+    };
+
+    mod.main();
   } catch (err) {
     console.error(err);
   }
