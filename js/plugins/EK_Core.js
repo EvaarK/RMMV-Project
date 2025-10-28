@@ -4,7 +4,7 @@
 
 /*:
  * @target MV
- * @plugindesc [1.0.0] Núcleo base para plugins Evaark (versões, logs, utilitários)...
+ * @plugindesc [1.0.0] Núcleo base para plugins Evaark (versões, logs, utilitários)
  * Carregue ele primeiro.
  * @author EvaarK
  *
@@ -28,18 +28,6 @@
 
   window.Evaark = window.Evaark || {};
   const Evaark = window.Evaark;
-
-  // Evaark.Version = class {
-  //   constructor(major = 1, minor = 0, patch = 0) {
-  //     this.major = major;
-  //     this.minor = minor;
-  //     this.patch = patch;
-  //   }
-
-  //   toString() {
-  //     return `${this.major}.${this.minor}.${this.patch}`;
-  //   }
-  // };
 
   Evaark.Version = function (major, minor, patch) {
     this.major = major || 1;
@@ -75,8 +63,5 @@
     return this[name];
   };
 
-  Evaark.log(
-    "Core",
-    `Carregado com sucesso - ${Evaark.version}`
-  );
+  Evaark.log("Core",`Carregado com sucesso - ${Evaark.version}`);
 })();
