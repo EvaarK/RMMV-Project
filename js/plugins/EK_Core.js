@@ -13,6 +13,7 @@
  * Sobre
  * ============================================================================
  * Plugin para RPG Maker MV 1.6.3.
+ * 
  * Este plugin deve ser carregado antes de qualquer outro plugin Evaark.
  *
  * Não possui comandos de plugin.
@@ -93,9 +94,10 @@
 
   Evaark.main = function () {
     Evaark.timesRun();
-
     Evaark.log("Core", `Carregado com sucesso - ${Evaark.version}`);
   };
 
+  console.time("[EK_Core] Init Time");
   Evaark.main();
+  console.timeEnd("[EK_Core] Init Time");
 })(window);
