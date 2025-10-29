@@ -49,7 +49,7 @@
  * v2.0.0:
  * - Utilização do EK_Core.
  * - Código reescrito.
- * - Melhoria na legibilidade.
+ * - Função setLogSpeed(newSpeed, customSpeed = -1) em runtime.
  *
  * v1.1.0:
  * - Mudança no código.

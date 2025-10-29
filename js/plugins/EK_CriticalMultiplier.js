@@ -30,7 +30,7 @@
  * v2.0.0:
  * - Utilização do EK_Core.
  * - Código reescrito.
- * - Melhoria na legibilidade.
+ * - Função setMultiplier(value) em runtime.
  *
  * v1.1.0:
  * - Mudança no código.
