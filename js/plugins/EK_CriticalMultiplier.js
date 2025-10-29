@@ -21,6 +21,8 @@
  * ============================================================================
  * Plugin para RPG Maker MV 1.6.3.
  * 
+ * [!] Requer EK_Core v1.x.x carregado antes.
+ * 
  * Este plugin não tem comandos.
  * ============================================================================
  * Changelog
@@ -36,34 +38,46 @@
  * v1.0.0:
  * - Lançamento Inicial.
  */
-(function () {
-  try {
-    if (!Evaark.Imported.Core) {
-      throw new Error("Core não está instalado.");
+(function (global) {
+  "use strict";
+
+  if (!global.Evaark || !global.Evaark.Imported || !global.Evaark.Imported.Core) {
+    throw new Error("Core não está instalado.");
+  }
+
+  const Evaark = global.Evaark;
+
+  if (Evaark.version.major != 1) {
+    throw new Error(`Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`);
+  }
+
+  /** @type {Evaark.CriticalMultiplier} */
+  const mod = Evaark.createModule("CriticalMultiplier", new Evaark.Version(2, 0, 0, "beta"));
+
+  const params = PluginManager.parameters("EK_CriticalMultiplier");
+
+  mod.multiplier = Number(params["Multiplicador"]);
+  if (isNaN(mod.multiplier) || mod.multiplier < 1) mod.multiplier = 3.0;
+
+  mod.setMultiplier = function (value) {
+    if (isNaN(value) || value < 1) {
+      Evaark.warn(mod.name, `Valor inválido (${value}). Deve ser >= 1.`);
+      return;
     }
 
-    if (Evaark.version.major != 1) {
-      throw new Error(`Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`);
-    }
+    mod.multiplier = value;
+    Evaark.log(mod.name, `Multiplicador atualizado para ${mod.multiplier}`);
+  };
 
-    /** @type {Evaark.CriticalMultiplier} */
-    const mod = Evaark.createModule("CriticalMultiplier", new Evaark.Version(2, 0, 0, "beta"));
-
-    const params = PluginManager.parameters("EK_CriticalMultiplier");
-
-    mod.multiplier = Number(params["Multiplicador"] || 3.0);
-
-    mod.main = function () {
-      Game_Action.prototype.applyCritical = function (damage) {
-        console.log(damage * Evaark.CriticalMultiplier.multiplier);
-        return damage * Evaark.CriticalMultiplier.multiplier;
-      };
-
-      Evaark.log("CriticalMultiplier", `Carregado com sucesso - ${mod.version}`);
+  mod.main = function () {
+    Game_Action.prototype.applyCritical = function (damage) {
+      return damage * mod.multiplier;
     };
 
-    mod.main();
-  } catch (err) {
-    console.error(err);
-  }
-})();
+    Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);
+  };
+
+  console.time(`[EK_${mod.name}] Init Time`);
+  mod.main();
+  console.timeEnd(`[EK_${mod.name}] Init Time`);
+})(window);

@@ -26,6 +26,7 @@
  */
 (function (global) {
   "use strict";
+
   console.log("%c[EK_Core] %cIniciando...", "color: #17a2b8; font-weight: bold;", "color: inherit;");
 
   global.Evaark = global.Evaark || {};

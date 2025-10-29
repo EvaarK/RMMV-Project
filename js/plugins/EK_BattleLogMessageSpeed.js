@@ -59,6 +59,8 @@
  * ============================================================================
  */
 (function (global) {
+  "use strict";
+
   if (!global.Evaark || !global.Evaark.Imported || !global.Evaark.Imported.Core) {
     throw new Error("Core não está instalado.");
   }
@@ -94,7 +96,7 @@
   mod.setLogSpeed = function(newSpeed, customSpeed = -1) {
     if (allowedSpeeds.includes(newSpeed)) mod.speed = newSpeed;
     if (!isNaN(customSpeed) && customSpeed >= 0) mod.customSpeed = customSpeed;
-    Evaark.debug(mod.name, `Velocidade atualizada: ${mod.logSpeed()}`);
+    Evaark.log(mod.name, `Velocidade atualizada: ${mod.logSpeed()}`);
   };
 
   mod.assertLogSpeed = function () {
@@ -118,8 +120,7 @@
     Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);
   };
 
-  console.time("[EK_BattleLogMessageSpeed] Init Time");
+  console.time(`[EK_${mod.name}] Init Time`);
   mod.main();
-  console.log(Window_BattleLog.prototype.messageSpeed());
-  console.timeEnd("[EK_BattleLogMessageSpeed] Init Time");
+  console.timeEnd(`[EK_${mod.name}] Init Time`);
 })(window);
