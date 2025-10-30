@@ -4,9 +4,9 @@
 
 /*:
  * @target MV
- * @plugindesc Altera o valor que modifica o volume.
+ * @plugindesc [2.0.0] Altera o valor que modifica o volume.
  * @author EvaarK
- *
+ * 
  * @param Valor
  * @type number
  * @min 1
@@ -25,41 +25,89 @@
  * ============================================================================
  * Sobre
  * ============================================================================
- * Feito no RPG Maker MV 1.6.1.
- * Este plugin não tem comandos.
+ * Plugin para RPG Maker MV 1.6.3.
+ *
+ * [!] Requer EK_Core v1.x.x carregado antes.
+ *
+ * Este plugin não possui comandos.
  * ============================================================================
  * Changelog
  * ============================================================================
+ * v2.0.0:
+ * - Utilização do EK_Core.
+ * - Código reescrito.
  * 
- * Versão 1.1.0:
+ * v1.1.0:
  * - Mudança no código.
  * 
- * Versão 1.0.0:
+ * v1.0.0:
  * - Lançamento Inicial.
  */
 
-var Evaark = Evaark || {};
-Evaark.Imported = Evaark.Imported || {};
-Evaark.Imported.volumeOffset = true;
+(function (global) {
+  "use strict";
 
-Evaark.VolumeOffset = Evaark.VolumeOffset || {};
+  if (!global.Evaark || !global.Evaark.Imported || !global.Evaark.Imported.Core) {
+    throw new Error("EK_Core não está instalado ou carregado antes deste plugin.");
+  }
 
-Evaark.VolumeOffset.version = [1, 1, 0];
+  const Evaark = global.Evaark;
+  const majorCore = 1;
 
-Evaark.VolumeOffset.params = PluginManager.parameters('EK_VolumeOffset');
+  if (Evaark.version.major !== majorCore) {
+    throw new Error( `EK_Core não está na versão correta. Esperado [v1.x.x], atual [${Evaark.version}]`);
+  }
 
-Evaark.VolumeOffset.value = Number(Evaark.VolumeOffset.params['Valor'] || 20);
-Evaark.VolumeOffset.multiplier = Number(Evaark.VolumeOffset.params['Valor Shift'] || 1.00);
+  /** @type {Evaark.VolumeOffset} */
+  const mod = Evaark.createModule("VolumeOffset",new Evaark.Version(2, 0, 0, "beta"));
 
-Window_Options.prototype.volumeOffset = function()
-{
+  const params = PluginManager.parameters(`EK_${mod.name}`);
+
+  mod.value = Number(params["Valor"]);
+  if (isNaN(mod.value) || mod.value < 1) {
+    Evaark.warn(mod.name, `Valor menor que 1, ajustado para 20`);
+    mod.value = 20;
+  }
+
+  mod.multiplier = Number(params["Valor Shift"]);
+  if (isNaN(mod.multiplier) || mod.multiplier < 1) {
+    Evaark.warn(mod.name, `Valor Shift menor que 1, ajustado para 1.00`);
+    mod.multiplier = 1.00;
+  }
+
+  mod.alteraVolume = function () {
     if (Input.isPressed(Input.keyMapper[16]))
     {
-        let returno = Evaark.VolumeOffset.value * Evaark.VolumeOffset.multiplier;
-        console.log((returno) + " " + Input.isPressed(Input.keyMapper[16]));
+        let returno = mod.value * mod.multiplier;
+        Evaark.debug(mod.name, `${returno} ${Input.isPressed(Input.keyMapper[16])}`)
         return returno;
     }
-    
-    console.log(Evaark.VolumeOffset.value + " " + Input.isPressed(Input.keyMapper[16]));
-    return Evaark.VolumeOffset.value;
-}
+
+    Evaark.debug(mod.name, `${mod.value} ${Input.isPressed(Input.keyMapper[16])}`)
+    return mod.value;
+  }
+
+  const _Window_Options_volumeOffset = Window_Options.prototype.volumeOffset;
+  Window_Options.prototype.volumeOffset = function()
+  {
+    return mod.alteraVolume() || _Window_Options_volumeOffset.call(this);
+  }
+
+  mod.main = function () {
+    Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);
+  };
+
+  mod.onError = function (error) {
+    Evaark.error(mod.name, error);
+  };
+
+  console.time(`[EK_${mod.name}] Init Time`);
+
+  try {
+    mod.main();
+  } catch (err) {
+    mod.onError(err);
+  }
+
+  console.timeEnd(`[EK_${mod.name}] Init Time`);
+})(window);

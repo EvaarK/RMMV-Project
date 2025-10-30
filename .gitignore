@@ -12,6 +12,7 @@
 !*/*/
 */*/*
 !*/*/EK_*.*
+!js/plugins/*.d.ts
 
 # Inclui arquivos
 !js/jsconfig.json
