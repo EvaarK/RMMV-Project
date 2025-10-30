@@ -1,33 +1,26 @@
 //=============================================================================
-// EK_RecoverOnLevelUp.js
+// EK_<NomeDoPlugin>.js
 //=============================================================================
 
 /*:
  * @target MV
- * @plugindesc [2.0.0] Recupera HP e MP no LevelUp.
+ * @plugindesc [1.0.0] Descrição breve do plugin.
  * @author EvaarK
- * 
+ *
  * @help
  * ============================================================================
  * Sobre
  * ============================================================================
  * Plugin para RPG Maker MV 1.6.3.
- * 
+ *
  * [!] Requer EK_Core v1.x.x carregado antes.
- * 
- * Este plugin não tem comandos.
+ *
+ * Este plugin não possui comandos.
  * ============================================================================
  * Changelog
  * ============================================================================
- * v2.0.0:
- * - Utilização do EK_Core.
- * - Código reescrito.
- * 
- * Versão 1.2.0:
- * - Mudança no código.
- * 
- * Versão 1.0.0:
- * - Lançamento Inicial.
+ * v1.0.0:
+ * - Lançamento inicial.
  */
 
 (function (global) {
@@ -44,17 +37,8 @@
     throw new Error( `EK_Core não está na versão correta. Esperado [v1.x.x], atual [${Evaark.version}]`);
   }
 
-  /** @type {Evaark.RecoverOnLevelUp} */
-  const mod = Evaark.createModule("RecoverOnLevelUp",new Evaark.Version(2, 0, 0, "beta"));
-
-  const _Game_Actor_levelUp = Game_Actor.prototype.levelUp;
-  Game_Actor.prototype.levelUp = function()
-  {
-      _Game_Actor_levelUp.call(this);
-
-      this.recoverAll();
-      Evaark.debug(mod.name, `HP e MP restaurados de ${this.name()} (Nv.${this.level})`);
-  }
+  /** @type {Evaark.<NomeDoPlugin>} */
+  const mod = Evaark.createModule("<NomeDoPlugin>",new Evaark.Version(1, 0, 0, "beta"));
 
   mod.main = function () {
     Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);
@@ -73,4 +57,4 @@
   }
 
   console.timeEnd(`[EK_${mod.name}] Init Time`);
-})(window)
+})(window);

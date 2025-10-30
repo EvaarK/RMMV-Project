@@ -62,19 +62,20 @@
   "use strict";
 
   if (!global.Evaark || !global.Evaark.Imported || !global.Evaark.Imported.Core) {
-    throw new Error("Core não está instalado.");
+    throw new Error("EK_Core não está instalado ou carregado antes deste plugin.");
   }
 
   const Evaark = global.Evaark;
+  const majorCore = 1;
 
-  if (Evaark.version.major != 1) {
-    throw new Error(`Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`);
+  if (Evaark.version.major !== majorCore) {
+    throw new Error( `EK_Core não está na versão correta. Esperado [v1.x.x], atual [${Evaark.version}]`);
   }
 
   /** @type {Evaark.BattleLogMessageSpeed} */
   const mod = Evaark.createModule("BattleLogMessageSpeed",new Evaark.Version(2, 0, 0, "beta"));
 
-  const params = PluginManager.parameters("EK_BattleLogMessageSpeed");
+  const params = PluginManager.parameters(`EK_${mod.name}`);
 
   const allowedSpeeds = [0, 1, 2, 3]
   mod.speed = allowedSpeeds.includes(Number(params["Velocidade"])) ? Number(params["Velocidade"]) : 1;
@@ -82,13 +83,12 @@
   mod.customSpeed = Number(params["Velocidade Personalizada"]);
   if (isNaN(mod.customSpeed) || mod.customSpeed < 0) mod.customSpeed = 16;
 
-  const _Window_BattleLog_messageSpeed = Window_BattleLog.prototype.messageSpeed;
-
   mod.logSpeed = function () {
     const speeds = {0: 8, 1: 16, 2: 32};
     return mod.speed === 3 ? Math.max(0, mod.customSpeed) : speeds[mod.speed] || 16;
   };
 
+  const _Window_BattleLog_messageSpeed = Window_BattleLog.prototype.messageSpeed;
   Window_BattleLog.prototype.messageSpeed = function() {
     return mod.logSpeed() || _Window_BattleLog_messageSpeed.call(this);
   };
@@ -110,7 +110,7 @@
       );
       Window_BattleLog.prototype.messageSpeed = _Window_BattleLog_messageSpeed;
 
-      throw new Error("Erro em EK_BattleLogMessageSpeed.js");
+      throw new Error(`Erro em EK_${mod.name}.js`);
     }
   };
 
@@ -120,7 +120,17 @@
     Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);
   };
 
+  mod.onError = function (error) {
+    Evaark.error(mod.name, error);
+  };
+
   console.time(`[EK_${mod.name}] Init Time`);
-  mod.main();
+
+  try {
+    mod.main();
+  } catch (err) {
+    mod.onError(err);
+  }
+
   console.timeEnd(`[EK_${mod.name}] Init Time`);
 })(window);

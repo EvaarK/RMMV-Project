@@ -55,21 +55,32 @@
   Evaark.name = "Core"
 
   Evaark.debug = function (name, message) {
-    if (console.debug) {
-      console.debug(`%c[EK_${name}] %c${message}`, "color: #6c757d; font-weight: bold;", "color: inherit;");
-    }
+    if (!console.debug) return;
+    const prefixStyle = "color: #6c757d; font-weight: bold;";
+    const textStyle = "color: inherit;";
+
+    console.debug(`%c[EK_${name}] %c${message}`, prefixStyle, textStyle);
   };
 
   Evaark.log = function (name, message) {
-    console.log(`%c[EK_${name}] %c${message}`, "color: #17a2b8; font-weight: bold;", "color: inherit;");
+    const prefixStyle = "color: #17a2b8; font-weight: bold;";
+    const textStyle = "color: inherit;";
+    
+    console.log(`%c[EK_${name}] %c${message}`, prefixStyle, textStyle);
   };
 
   Evaark.warn = function (name, message) {
-    console.warn(`%c[EK_${name}] %c${message}`, "color: #ffc107; font-weight: bold;", "color: inherit;");
+    const prefixStyle = "color: #ffc107; font-weight: bold;";
+    const textStyle = "color: inherit;";
+
+    console.warn(`%c[EK_${name}] %c${message}`, prefixStyle, textStyle);
   };
 
   Evaark.error = function (name, message) {
-    console.error(`%c[EK_${name}] %c${message}`, "color: #dc3545; font-weight: bold;", "color: inherit;");
+    const prefixStyle = "color: #dc3545; font-weight: bold;";
+    const textStyle = "color: inherit;";
+
+    console.error(`%c[EK_${name}] %c${message}`, prefixStyle, textStyle);
   };
 
   Evaark.createModule = function (name, version) {
@@ -77,17 +88,17 @@
       Evaark.warn("Core", `Módulo '${name}' já existe e não será sobrescrito.`);
       return this[name];
     }
-    this[name] = {};
-    this[name].version = version || new Evaark.Version(0, 0, 0);
-    this[name].name = name;
-    this.Imported[name] = true;
+    Evaark[name] = {};
+    Evaark[name].version = version || new Evaark.Version(0, 0, 0);
+    Evaark[name].name = name;
+    Evaark.Imported[name] = true;
     return this[name];
   };
 
   Evaark.timesRun = function () {
     try {
       let vezesIniciado = Number(localStorage.getItem("EK-vezesIniciado")) || 0;
-      localStorage.setItem("EK-vezesIniciado", vezesIniciado + 1);
+      localStorage.setItem("EK-vezesIniciado", JSON.stringify(vezesIniciado + 1));
     } catch (err) {
       Evaark.error("Core", "Não foi possível salvar 'vezesIniciado' no localStorage.");
     }

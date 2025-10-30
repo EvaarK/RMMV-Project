@@ -11,7 +11,7 @@
     "./plugins/*.js",
     "plugins_dev/*.js",
     "plugins/*.js",
-    "plugins/types/*.ts"
+    "plugins/*.d.ts"
   ],
   "exclude": [
     "plugins_dev/*"

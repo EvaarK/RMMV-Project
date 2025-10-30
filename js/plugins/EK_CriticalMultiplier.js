@@ -42,19 +42,20 @@
   "use strict";
 
   if (!global.Evaark || !global.Evaark.Imported || !global.Evaark.Imported.Core) {
-    throw new Error("Core não está instalado.");
+    throw new Error("EK_Core não está instalado ou carregado antes deste plugin.");
   }
 
   const Evaark = global.Evaark;
+  const majorCore = 1;
 
-  if (Evaark.version.major != 1) {
-    throw new Error(`Core não está na versão correta. Versão esperado [v1.x.x], versão atual [${Evaark.version}]`);
+  if (Evaark.version.major !== majorCore) {
+    throw new Error( `EK_Core não está na versão correta. Esperado [v1.x.x], atual [${Evaark.version}]`);
   }
 
   /** @type {Evaark.CriticalMultiplier} */
   const mod = Evaark.createModule("CriticalMultiplier", new Evaark.Version(2, 0, 0, "beta"));
 
-  const params = PluginManager.parameters("EK_CriticalMultiplier");
+  const params = PluginManager.parameters(`EK_${mod.name}`);
 
   mod.multiplier = Number(params["Multiplicador"]);
   if (isNaN(mod.multiplier) || mod.multiplier < 1) mod.multiplier = 3.0;
@@ -69,15 +70,26 @@
     Evaark.log(mod.name, `Multiplicador atualizado para ${mod.multiplier}`);
   };
 
-  mod.main = function () {
-    Game_Action.prototype.applyCritical = function (damage) {
-      return damage * mod.multiplier;
-    };
+  const _Game_Action_applyCritical = Game_Action.prototype.applyCritical;
+  Game_Action.prototype.applyCritical = function (damage) {
+    return (damage * mod.multiplier) || _Game_Action_applyCritical.call(this);
+  };
 
+  mod.main = function () {
     Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);
   };
 
+  mod.onError = function (error) {
+    Evaark.error(mod.name, error);
+  };
+
   console.time(`[EK_${mod.name}] Init Time`);
-  mod.main();
+
+  try {
+    mod.main();
+  } catch (err) {
+    mod.onError(err);
+  }
+
   console.timeEnd(`[EK_${mod.name}] Init Time`);
 })(window);
