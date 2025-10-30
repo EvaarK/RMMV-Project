@@ -78,10 +78,18 @@
   const params = PluginManager.parameters(`EK_${mod.name}`);
 
   const allowedSpeeds = [0, 1, 2, 3]
-  mod.speed = allowedSpeeds.includes(Number(params["Velocidade"])) ? Number(params["Velocidade"]) : 1;
+  if (allowedSpeeds.includes(Number(params["Velocidade"]))) {
+    mod.speed = Number(params["Velocidade"]);
+  } else {
+    Evaark.warn(mod.name, `Valor invalido para Velocidade, ajustado para 1`);
+    mod.speed = 1;
+  }
 
   mod.customSpeed = Number(params["Velocidade Personalizada"]);
-  if (isNaN(mod.customSpeed) || mod.customSpeed < 0) mod.customSpeed = 16;
+  if (isNaN(mod.customSpeed) || mod.customSpeed < 0) {
+    Evaark.warn(mod.name, `Velocidade Personalizada menor que 0, ajustado para 16`);
+    mod.customSpeed = 16;
+  }
 
   mod.logSpeed = function () {
     const speeds = {0: 8, 1: 16, 2: 32};

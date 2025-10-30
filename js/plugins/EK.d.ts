@@ -59,6 +59,13 @@ declare namespace Evaark {
 
   interface RecoverOnLevelUp extends EvaarkObject {}
 
+  interface VolumeOffset extends EvaarkObject {
+    value: number;
+    multiplier: number;
+
+    alteraVolume(): number;
+  }
+
   let Imported: {
     [key: string]: boolean | undefined;
     Core?: boolean;
@@ -66,10 +73,12 @@ declare namespace Evaark {
     CriticalMultiplier?: boolean;
     DamageFormula?: boolean;
     RecoverOnLevelUp?: boolean;
+    VolumeOffset?: boolean;
   };
 
   const BattleLogMessageSpeed: BattleLogMessageSpeed;
   const CriticalMultiplier: CriticalMultiplier;
   const DamageFormula: DamageFormula;
   const RecoverOnLevelUp: RecoverOnLevelUp;
+  const VolumeOffset: VolumeOffset;
 }

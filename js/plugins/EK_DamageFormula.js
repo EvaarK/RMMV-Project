@@ -38,10 +38,10 @@
  * - Suporte a múltiplas tags <formula>.
  * - Função reloadFormulas() em runtime.
  *
- * Versão 1.1.0:
+ * v1.1.0:
  * - Mudança teste no código.
  *
- * Versão 1.0.0:
+ * v1.0.0:
  * - Lançamento Inicial.
  */
 (function (global) {

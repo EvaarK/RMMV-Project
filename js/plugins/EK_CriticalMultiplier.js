@@ -58,7 +58,10 @@
   const params = PluginManager.parameters(`EK_${mod.name}`);
 
   mod.multiplier = Number(params["Multiplicador"]);
-  if (isNaN(mod.multiplier) || mod.multiplier < 1) mod.multiplier = 3.0;
+  if (isNaN(mod.multiplier) || mod.multiplier < 1) {
+    Evaark.warn(mod.name, `Multiplicador menor que 1, ajustado para 3.00`);
+    mod.multiplier = 3.0;
+  }
 
   mod.setMultiplier = function (value) {
     if (isNaN(value) || value < 1) {

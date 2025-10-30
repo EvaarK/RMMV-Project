@@ -40,6 +40,8 @@
   /** @type {Evaark.<NomeDoPlugin>} */
   const mod = Evaark.createModule("<NomeDoPlugin>",new Evaark.Version(1, 0, 0, "beta"));
 
+  const params = PluginManager.parameters(`EK_${mod.name}`);
+
   mod.main = function () {
     Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);
   };
