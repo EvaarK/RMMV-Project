@@ -86,6 +86,10 @@
  * [!] Requer EK_Core v1.x.x carregado antes.
  *
  * - Define a variável de dificuldade no banco de variáveis do jogo.
+ * - Aplica as mudanças chamando `Evaark.DifficultyControl.setDifficulty()`.
+ * 
+ * Exemplo:
+ *   Evaark.DifficultyControl.setDifficulty(Evaark.Difficulty.EASY);
  * 
  * ============================================================================
  * Changelog
@@ -124,6 +128,7 @@
 
   mod.playerMultiplier = mod.playerMultiplierNormal;
   mod.enemyMultiplier = mod.enemyMultiplierNormal;
+  mod._currentDifficulty = null;
 
   mod.applyDifficulty = function (variable) {
     const value = Evaark.normalizeString(String($gameVariables.value(variable)));
@@ -133,17 +138,24 @@
         mod.playerMultiplier = mod.playerMultiplierEasy;
         mod.enemyMultiplier = mod.enemyMultiplierEasy;
         break;
+
+      case Evaark.Difficulty.NORMAL:
+        mod.playerMultiplier = mod.playerMultiplierNormal;
+        mod.enemyMultiplier = mod.enemyMultiplierNormal;
+        break;
       
-      case Evaark.Difficulty.HARD || 2:
+      case Evaark.Difficulty.HARD:
         mod.playerMultiplier = mod.playerMultiplierHard;
         mod.enemyMultiplier = mod.enemyMultiplierHard;
         break;
 
       default:
-        mod.playerMultiplier = mod.playerMultiplierNormal;
-        mod.enemyMultiplier = mod.enemyMultiplierNormal;
+        mod.playerMultiplier = 1;
+        mod.enemyMultiplier = 1;
         break;
     }
+
+    mod._currentDifficulty = value;
 
     Evaark.debug(mod.name, `Valor da Variavel ${variable}: ${$gameVariables.value(variable)}`);
     Evaark.debug(mod.name, `Multiplicador do jogador: ${mod.playerMultiplier}`);
@@ -159,6 +171,15 @@
     }
   };
 
+  mod.setDifficulty = function (difficulty) {
+    if (!Object.values(Evaark.Difficulty).includes(difficulty)) {
+      Evaark.warn(mod.name, `Dificuldade inválida: ${difficulty}`);
+      return;
+    }
+
+    $gameVariables.setValue(mod.difficultyVariable, difficulty);
+  };
+
   const _Game_Variables_setValue = Game_Variables.prototype.setValue;
   Game_Variables.prototype.setValue = function(variableId, value) {
     _Game_Variables_setValue.call(this, variableId, value);
@@ -172,10 +193,8 @@
   const _Scene_Load_onLoadSuccess = Scene_Load.prototype.onLoadSuccess;
   Scene_Load.prototype.onLoadSuccess = function() {
     _Scene_Load_onLoadSuccess.call(this);
-    if (typeof mod.applyDifficulty === "function") {
-      Evaark.log(mod.name, "Aplicando dificuldade ao carregar jogo");
-      mod.applyDifficulty(mod.difficultyVariable);
-    }
+    Evaark.log(mod.name, "Aplicando dificuldade ao carregar jogo");
+    mod.applyDifficulty(mod.difficultyVariable);
   }
 
   mod.main = function () {

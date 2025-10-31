@@ -34,11 +34,11 @@ declare namespace Evaark {
     toString(): string;
   }
 
-  const Difficulty: Readonly<{
-    EASY: "easy";
-    NORMAL: "normal";
-    HARD: "hard";
-  }>;
+  enum Difficulty {
+    EASY = "easy",
+    NORMAL = "normal",
+    HARD = "hard"
+  }
 
   let version: Version;
   let name: string;
@@ -99,9 +99,11 @@ declare namespace Evaark {
     difficultyVariable: number;
     playerMultiplier: number;
     enemyMultiplier: number;
+    _currentDifficulty: Evaark.Difficulty;
 
     applyDifficulty(variable: number): void;
     getDifficultyLabel(value: any): string;
+    setDifficulty(difficulty: Evaark.Difficulty): void;
   }
 
   let Imported: {
