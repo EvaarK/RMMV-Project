@@ -133,7 +133,7 @@
   mod._currentDifficulty = null;
 
   mod.applyDifficulty = function (variable) {
-    const value = Evaark.normalizeString(String($gameVariables.value(variable)));
+    const value = mod._convertDifficulty(Evaark.normalizeString(String($gameVariables.value(variable))));
 
     switch (value) {
       case Evaark.Difficulty.EASY:
@@ -165,7 +165,9 @@
   }
 
   mod.getDifficultyLabel = function(value) {
-    switch (value) {
+    const convertValue = mod._convertDifficulty(value);
+
+    switch (convertValue) {
       case Evaark.Difficulty.EASY: return "Fácil";
       case Evaark.Difficulty.NORMAL: return "Normal";
       case Evaark.Difficulty.HARD: return "Difícil";
@@ -191,6 +193,17 @@
     mod.setDifficulty(next);
   };
 
+  mod._convertDifficulty = function (value) {
+    const map = {
+      1: Evaark.Difficulty.EASY,
+      2: Evaark.Difficulty.NORMAL,
+      3: Evaark.Difficulty.HARD,
+    }
+
+    if (map[value]) return map[value];
+    return value;
+  };
+
   const _Game_Variables_setValue = Game_Variables.prototype.setValue;
   Game_Variables.prototype.setValue = function(variableId, value) {
     const oldValue = this._data[variableId];
@@ -207,7 +220,24 @@
     _Scene_Load_onLoadSuccess.call(this);
     Evaark.log(mod.name, "Aplicando dificuldade ao carregar jogo");
     mod.applyDifficulty(mod.difficultyVariable);
-  }
+  };
+
+  const _DataManager_makeSavefileInfo = DataManager.makeSavefileInfo;
+  DataManager.makeSavefileInfo = function() {
+    const info = _DataManager_makeSavefileInfo.call(this);
+    try {
+      const difficultyValue = $gameVariables.value(mod.difficultyVariable);
+      const difficultyLabel = mod.getDifficultyLabel(difficultyValue);
+      info.difficulty = difficultyLabel;
+
+      if (difficultyLabel !== "Desconhecida") {
+        info.title += ` [${difficultyLabel}]`;
+      }
+    } catch (e) {
+      Evaark.warn(mod.name, "Não foi possível adicionar dificuldade ao save.");
+    }
+    return info;
+  };
 
   mod.main = function () {
     Evaark.log(mod.name, `Carregado com sucesso - ${mod.version}`);

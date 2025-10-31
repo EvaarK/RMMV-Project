@@ -105,6 +105,7 @@ declare namespace Evaark {
     getDifficultyLabel(value: any): string;
     setDifficulty(difficulty: Evaark.Difficulty): void;
     cycleDifficulty(): void;
+    _convertDifficulty(value: string): string;
   }
 
   let Imported: {
