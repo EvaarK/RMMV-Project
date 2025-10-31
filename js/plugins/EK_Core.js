@@ -104,6 +104,35 @@
     }
   };
 
+  Evaark.parseParamNumber = function ({value, min = -Infinity, name = "", def = 0, module = ""}) {
+    const num = Number(String(value).replace(',', '.'));
+    if (isNaN(num) || num < min) {
+      Evaark.warn(module, `${name} menor que ${min}, ajustado para ${def}`);
+      return def;
+    }
+
+    return num;
+  }
+
+  Evaark.loadParamsNumber = function(mod, schema) {
+    console.log(mod)
+    console.log(schema)
+
+    const params = PluginManager.parameters(`EK_${mod.name}`);
+    console.log(params)
+    for (const key in schema) {
+      const conf = schema[key];
+      console.log(conf)
+      mod[key] = Evaark.parseParamNumber({
+        value: params[conf.param],
+        min: conf.min,
+        name: conf.param,
+        def: conf.default,
+        module: mod.name 
+      });
+    }
+  }
+
   Evaark.main = function () {
     Evaark.timesRun();
     Evaark.log("Core", `Carregado com sucesso - ${Evaark.version}`);

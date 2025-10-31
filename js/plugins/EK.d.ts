@@ -10,6 +10,20 @@ declare namespace Evaark {
     onError(error: any): void;
   }
 
+  interface ParamNumber {
+    value: string;
+    min: number = 0;
+    name: string = "";
+    def: number = -Infinity;
+    module: string = "";
+  }
+
+  interface ParamNumberConfig {
+    param: string;
+    default: number;
+    min?: number;
+  }
+
   class Version {
     constructor(major?: number, minor?: number, patch?: number, preRelease?: string, build?: string);
     major: number;
@@ -29,8 +43,10 @@ declare namespace Evaark {
   function error(name: string, message?: any): void;
 
   function createModule<T extends EvaarkObject>(name: string, version: Version): T;
-  function timesRun();
-  function main();
+  function timesRun(): void;
+  function parseParamNumber(paramNumber: ParamNumber): number;
+  function loadParamsNumber<T extends Record<string, any>>(mod: T,schema: Record<keyof T, ParamNumberConfig>): void;
+  function main(): void;
 
   interface BattleLogMessageSpeed extends EvaarkObject {
     speed: number;
@@ -66,6 +82,20 @@ declare namespace Evaark {
     alteraVolume(): number;
   }
 
+  interface DifficultyControl extends EvaarkObject {
+    playerMultiplierEasy: number;
+    enemyMultiplierEasy: number;
+    playerMultiplierNormal: number;
+    enemyMultiplierNormal: number;
+    playerMultiplierHard: number;
+    enemyMultiplierHard: number;
+    difficultyVariable: number;
+    playerMultiplier: number;
+    enemyMultiplier: number;
+
+    applyDifficulty(variable: number): void;
+  }
+
   let Imported: {
     [key: string]: boolean | undefined;
     Core?: boolean;
@@ -81,4 +111,5 @@ declare namespace Evaark {
   const DamageFormula: DamageFormula;
   const RecoverOnLevelUp: RecoverOnLevelUp;
   const VolumeOffset: VolumeOffset;
+  const DifficultyControl: DifficultyControl;
 }
