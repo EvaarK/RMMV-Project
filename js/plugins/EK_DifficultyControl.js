@@ -86,10 +86,12 @@
  * [!] Requer EK_Core v1.x.x carregado antes.
  *
  * - Define a variável de dificuldade no banco de variáveis do jogo.
- * - Aplica as mudanças chamando `Evaark.DifficultyControl.setDifficulty()`.
  * 
+ * - Aplica as mudanças chamando `Evaark.DifficultyControl.setDifficulty()`.
  * Exemplo:
  *   Evaark.DifficultyControl.setDifficulty(Evaark.Difficulty.EASY);
+ * 
+ * - Cicla entre dificuldades chamando `Evaark.DifficultyControl.cycleDifficulty()`.
  * 
  * ============================================================================
  * Changelog
@@ -172,19 +174,29 @@
   };
 
   mod.setDifficulty = function (difficulty) {
-    if (!Object.values(Evaark.Difficulty).includes(difficulty)) {
+    const normalized = Evaark.normalizeString(String(difficulty));
+
+    if (!Object.values(Evaark.Difficulty).includes(normalized)) {
       Evaark.warn(mod.name, `Dificuldade inválida: ${difficulty}`);
       return;
     }
 
-    $gameVariables.setValue(mod.difficultyVariable, difficulty);
+    $gameVariables.setValue(mod.difficultyVariable, normalized);
+  };
+
+  mod.cycleDifficulty = function() {
+    const order = [Evaark.Difficulty.EASY, Evaark.Difficulty.NORMAL, Evaark.Difficulty.HARD];
+    const current = mod._currentDifficulty || Evaark.Difficulty.EASY;
+    const next = order[(order.indexOf(current) + 1) % order.length];
+    mod.setDifficulty(next);
   };
 
   const _Game_Variables_setValue = Game_Variables.prototype.setValue;
   Game_Variables.prototype.setValue = function(variableId, value) {
+    const oldValue = this._data[variableId];
     _Game_Variables_setValue.call(this, variableId, value);
 
-    if (variableId === mod.difficultyVariable) {
+    if (variableId === mod.difficultyVariable && oldValue !== value) {
       Evaark.log(mod.name, `Variável de dificuldade alterada para: ${mod.getDifficultyLabel(value)}`);
       mod.applyDifficulty(variableId);
     }
