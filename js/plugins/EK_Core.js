@@ -51,6 +51,12 @@
     return v;
   };
 
+  Evaark.Difficulty = Object.freeze({
+    EASY: "easy",
+    NORMAL: "normal",
+    HARD: "hard",
+  });
+
   Evaark.version = new Evaark.Version(1, 0, 0, "beta");
   Evaark.name = "Core"
 
@@ -115,14 +121,9 @@
   }
 
   Evaark.loadParamsNumber = function(mod, schema) {
-    console.log(mod)
-    console.log(schema)
-
     const params = PluginManager.parameters(`EK_${mod.name}`);
-    console.log(params)
     for (const key in schema) {
       const conf = schema[key];
-      console.log(conf)
       mod[key] = Evaark.parseParamNumber({
         value: params[conf.param],
         min: conf.min,
@@ -131,6 +132,10 @@
         module: mod.name 
       });
     }
+  }
+
+  Evaark.normalizeString = function (text) {
+    return text.trim().toLowerCase();
   }
 
   Evaark.main = function () {

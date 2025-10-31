@@ -46,6 +46,7 @@
 
   /** @type {Evaark.RecoverOnLevelUp} */
   const mod = Evaark.createModule("RecoverOnLevelUp",new Evaark.Version(2, 0, 0, "beta"));
+  console.time(`[EK_${mod.name}] Init Time`);
 
   const _Game_Actor_levelUp = Game_Actor.prototype.levelUp;
   Game_Actor.prototype.levelUp = function()
@@ -63,8 +64,6 @@
   mod.onError = function (error) {
     Evaark.error(mod.name, error);
   };
-
-  console.time(`[EK_${mod.name}] Init Time`);
 
   try {
     mod.main();

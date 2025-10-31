@@ -34,6 +34,12 @@ declare namespace Evaark {
     toString(): string;
   }
 
+  const Difficulty: Readonly<{
+    EASY: "easy";
+    NORMAL: "normal";
+    HARD: "hard";
+  }>;
+
   let version: Version;
   let name: string;
 
@@ -46,6 +52,7 @@ declare namespace Evaark {
   function timesRun(): void;
   function parseParamNumber(paramNumber: ParamNumber): number;
   function loadParamsNumber<T extends Record<string, any>>(mod: T,schema: Record<keyof T, ParamNumberConfig>): void;
+  function normalizeString(text: string): string;
   function main(): void;
 
   interface BattleLogMessageSpeed extends EvaarkObject {
@@ -94,6 +101,7 @@ declare namespace Evaark {
     enemyMultiplier: number;
 
     applyDifficulty(variable: number): void;
+    getDifficultyLabel(value: any): string;
   }
 
   let Imported: {

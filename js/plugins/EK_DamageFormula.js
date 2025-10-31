@@ -60,6 +60,7 @@
 
   /** @type {Evaark.DamageFormula} */
   const mod = Evaark.createModule("DamageFormula", new Evaark.Version(2, 0, 0, "beta"));
+  console.time(`[EK_${mod.name}] Init Time`);
 
   mod.replaceVarToLet = function (text) {
     return text.replace(/var\s/gi, "let ");
@@ -121,8 +122,6 @@
   mod.onError = function (error) {
     Evaark.error(mod.name, error);
   };
-
-  console.time(`[EK_${mod.name}] Init Time`);
 
   try {
     mod.main();
