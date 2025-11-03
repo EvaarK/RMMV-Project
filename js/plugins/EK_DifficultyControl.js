@@ -16,8 +16,8 @@
  * @parent Fácil
  * @min 0
  * @desc Define o multiplicador de dano do jogodor.
- * Padrão = 3.00
- * @default 3.00
+ * Padrão = 2.00
+ * @default 2.00
  * 
  * @param Dano Inimigo Fácil
  * @type number
@@ -37,8 +37,8 @@
  * @parent Normal
  * @min 0
  * @desc Define o multiplicador de dano do jogodor.
- * Padrão = 3.00
- * @default 3.00
+ * Padrão = 1.00
+ * @default 1.00
  * 
  * @param Dano Inimigo Normal
  * @type number
@@ -58,8 +58,8 @@
  * @parent Difícil
  * @min 0
  * @desc Define o multiplicador de dano do jogodor.
- * Padrão = 2.00
- * @default 2.00
+ * Padrão = 1.00
+ * @default 1.00
  * 
  * @param Dano Inimigo Difícil
  * @type number
@@ -119,17 +119,17 @@
   console.time(`[EK_${mod.name}] Init Time`);
 
   Evaark.loadParamsNumber(mod, {
-    playerMultiplierEasy: {param: "Dano Jogador Fácil", default: 3, min: 0},
+    playerMultiplierEasy: {param: "Dano Jogador Fácil", default: 2, min: 0},
     enemyMultiplierEasy: {param: "Dano Inimigo Fácil", default: 0.5, min: 0},
-    playerMultiplierNormal: {param: "Dano Jogador Normal", default: 3, min: 0},
+    playerMultiplierNormal: {param: "Dano Jogador Normal", default: 1, min: 0},
     enemyMultiplierNormal: {param: "Dano Inimigo Normal", default: 1, min: 0},
-    playerMultiplierHard: {param: "Dano Jogador Difícil", default: 2, min: 0},
+    playerMultiplierHard: {param: "Dano Jogador Difícil", default: 1, min: 0},
     enemyMultiplierHard: {param: "Dano Inimigo Difícil", default: 2, min: 0},
     difficultyVariable: {param: "Variável", default: 1, min: 1},
   })
 
-  mod.playerMultiplier = mod.playerMultiplierNormal;
-  mod.enemyMultiplier = mod.enemyMultiplierNormal;
+  mod.playerMultiplier = 1;
+  mod.enemyMultiplier = 1;
   mod._currentDifficulty = null;
 
   mod.applyDifficulty = function (variable) {
@@ -204,6 +204,18 @@
     return value;
   };
 
+  mod._damageInPlayer = function (damage) {
+    return damage * mod.enemyMultiplier;
+  }
+
+  mod._damageInEnemy = function (damage) {
+    return damage * mod.playerMultiplier;
+  }
+
+  mod._damageInBoss = function (damage) {
+    return damage * (mod.playerMultiplier / 2);
+  }
+
   const _Game_Variables_setValue = Game_Variables.prototype.setValue;
   Game_Variables.prototype.setValue = function(variableId, value) {
     const oldValue = this._data[variableId];
@@ -237,6 +249,24 @@
       Evaark.warn(mod.name, "Não foi possível adicionar dificuldade ao save.");
     }
     return info;
+  };
+
+  const _Game_Action_makeDamageValue = Game_Action.prototype.makeDamageValue;
+  Game_Action.prototype.makeDamageValue = function (target, critical) {
+    let damage = _Game_Action_makeDamageValue.call(this, target, critical);
+
+    console.log(target)
+    if (target instanceof Game_Actor) {
+      damage = mod._damageInPlayer(damage);
+    } else if (target instanceof Game_Enemy) {
+      // const isBoss = target.enemy().meta.boss;
+      damage = mod._damageInEnemy(damage);
+    } else {
+      damage = mod._damageInEnemy(damage);
+    }
+
+    damage = Math.round(damage);
+    return damage;
   };
 
   mod.main = function () {

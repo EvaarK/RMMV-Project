@@ -106,6 +106,9 @@ declare namespace Evaark {
     setDifficulty(difficulty: Evaark.Difficulty): void;
     cycleDifficulty(): void;
     _convertDifficulty(value: string): string;
+    _damageInPlayer(damage: number): number;
+    _damageInEnemy(damage: number): number;
+    _damageInBoss(damage: number): number;
   }
 
   let Imported: {
