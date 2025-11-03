@@ -90,12 +90,12 @@ declare namespace Evaark {
   }
 
   interface DifficultyControl extends EvaarkObject {
-    playerMultiplierEasy: number;
-    enemyMultiplierEasy: number;
-    playerMultiplierNormal: number;
-    enemyMultiplierNormal: number;
-    playerMultiplierHard: number;
-    enemyMultiplierHard: number;
+    easyPlayer: number;
+    easyEnemy: number;
+    normalPlayer: number;
+    normalEnemy: number;
+    hardPlayer: number;
+    hardEnemy: number;
     difficultyVariable: number;
     playerMultiplier: number;
     enemyMultiplier: number;

@@ -119,12 +119,12 @@
   console.time(`[EK_${mod.name}] Init Time`);
 
   Evaark.loadParamsNumber(mod, {
-    playerMultiplierEasy: {param: "Dano Jogador Fácil", default: 2, min: 0},
-    enemyMultiplierEasy: {param: "Dano Inimigo Fácil", default: 0.5, min: 0},
-    playerMultiplierNormal: {param: "Dano Jogador Normal", default: 1, min: 0},
-    enemyMultiplierNormal: {param: "Dano Inimigo Normal", default: 1, min: 0},
-    playerMultiplierHard: {param: "Dano Jogador Difícil", default: 1, min: 0},
-    enemyMultiplierHard: {param: "Dano Inimigo Difícil", default: 2, min: 0},
+    easyPlayer: {param: "Dano Jogador Fácil", default: 2, min: 0},
+    easyEnemy: {param: "Dano Inimigo Fácil", default: 0.5, min: 0},
+    normalPlayer: {param: "Dano Jogador Normal", default: 1, min: 0},
+    normalEnemy: {param: "Dano Inimigo Normal", default: 1, min: 0},
+    hardPlayer: {param: "Dano Jogador Difícil", default: 1, min: 0},
+    hardEnemy: {param: "Dano Inimigo Difícil", default: 2, min: 0},
     difficultyVariable: {param: "Variável", default: 1, min: 1},
   })
 
@@ -137,18 +137,18 @@
 
     switch (value) {
       case Evaark.Difficulty.EASY:
-        mod.playerMultiplier = mod.playerMultiplierEasy;
-        mod.enemyMultiplier = mod.enemyMultiplierEasy;
+        mod.playerMultiplier = mod.easyPlayer;
+        mod.enemyMultiplier = mod.easyEnemy;
         break;
 
       case Evaark.Difficulty.NORMAL:
-        mod.playerMultiplier = mod.playerMultiplierNormal;
-        mod.enemyMultiplier = mod.enemyMultiplierNormal;
+        mod.playerMultiplier = mod.normalPlayer;
+        mod.enemyMultiplier = mod.normalEnemy;
         break;
       
       case Evaark.Difficulty.HARD:
-        mod.playerMultiplier = mod.playerMultiplierHard;
-        mod.enemyMultiplier = mod.enemyMultiplierHard;
+        mod.playerMultiplier = mod.hardPlayer;
+        mod.enemyMultiplier = mod.hardEnemy;
         break;
 
       default:
