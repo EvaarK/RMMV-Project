@@ -76,7 +76,7 @@
 
   const _Game_Action_applyCritical = Game_Action.prototype.applyCritical;
   Game_Action.prototype.applyCritical = function (damage) {
-    return (damage * mod.multiplier) || _Game_Action_applyCritical.call(this);
+    return (damage * mod.multiplier) || _Game_Action_applyCritical.call(this, damage);
   };
 
   mod.main = function () {
