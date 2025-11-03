@@ -71,10 +71,10 @@
  * @default 2.00
  * 
  * @param Variável
- * @type number
+ * @type variable
  * @min 1
  * @desc Define a variável do RPG Maker que será usada.
- * Padrão = 1
+ * Padrão = 1 | Valor 'Nenhum' será usando a Variável 1.
  * @default 1
  * 
  * @help
@@ -82,6 +82,8 @@
  * Sobre
  * ============================================================================
  * Plugin para RPG Maker MV 1.6.3.
+ * 
+ * Caso Variável seja selecionada Nenhum, o valor padrão será usado.
  *
  * [!] Requer EK_Core v1.x.x carregado antes.
  *

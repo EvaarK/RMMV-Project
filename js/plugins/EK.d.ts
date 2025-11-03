@@ -1,5 +1,9 @@
-// EK.d.js
-// v1.0.0
+/*
+  EK.d.js
+  v1.0.0
+
+  https://forums.rpgmakerweb.com/index.php?threads/introduction-to-the-new-plugin-manager-in-rpg-maker-mv-1-5-0.79764/
+*/
 
 declare namespace Evaark {
   interface EvaarkObject {
