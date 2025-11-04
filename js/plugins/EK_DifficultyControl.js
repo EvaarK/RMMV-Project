@@ -77,6 +77,10 @@
  * Padrão = 1 | Valor 'Nenhum' será usando a Variável 1.
  * @default 1
  * 
+ * @param Lista de Dificuldades
+ * @desc Lista de Dificuldades
+ * @type struct<DificultyItem>[]
+ * 
  * @help
  * ============================================================================
  * Sobre
@@ -91,7 +95,7 @@
  * 
  * - Aplica as mudanças chamando `Evaark.DifficultyControl.setDifficulty()`.
  * Exemplo:
- *   Evaark.DifficultyControl.setDifficulty(Evaark.Difficulty.EASY);
+ *   Evaark.DifficultyControl.setDifficulty(Evaark.DifficultyEnum.EASY);
  * 
  * - Cicla entre dificuldades chamando `Evaark.DifficultyControl.cycleDifficulty()`.
  * 
@@ -100,6 +104,28 @@
  * ============================================================================
  * v1.0.0:
  * - Lançamento inicial.
+ */
+
+/*~struct~DificultyItem:
+ * @param Nome
+ * @type text
+ * @desc Nome da dificuldade.
+ * 
+ * @param Dano Jogador
+ * @type number
+ * @decimals 2
+ * @min 0
+ * @desc Define o multiplicador de dano do jogodor.
+ * Padrão = 1.00
+ * @default 1.00
+ * 
+ * @param Dano Inimigo
+ * @type number
+ * @decimals 2
+ * @min 0
+ * @desc Define o multiplicador de dano do inimigo.
+ * Padrão = 1.00
+ * @default 1.00
  */
 
 (function (global) {
@@ -120,6 +146,14 @@
   const mod = Evaark.createModule("DifficultyControl",new Evaark.Version(1, 0, 0, "alpha"));
   console.time(`[EK_${mod.name}] Init Time`);
 
+  mod._difficulties = Evaark.parseDifficulties(mod, 'Lista de Dificuldades')
+  console.log(mod._difficulties)
+
+  mod.selectDifficulty = function (difficultyName) {
+    const difficulty = mod._difficulties.find(d => d.name === difficultyName.trim().toLowerCase())
+    console.log(difficulty)
+  }
+
   Evaark.loadParamsNumber(mod, {
     easyPlayer: {param: "Dano Jogador Fácil", default: 2, min: 0},
     easyEnemy: {param: "Dano Inimigo Fácil", default: 0.5, min: 0},
@@ -138,17 +172,17 @@
     const value = mod._convertDifficulty(Evaark.normalizeString(String($gameVariables.value(variable))));
 
     switch (value) {
-      case Evaark.Difficulty.EASY:
+      case Evaark.DifficultyEnum.EASY:
         mod.playerMultiplier = mod.easyPlayer;
         mod.enemyMultiplier = mod.easyEnemy;
         break;
 
-      case Evaark.Difficulty.NORMAL:
+      case Evaark.DifficultyEnum.NORMAL:
         mod.playerMultiplier = mod.normalPlayer;
         mod.enemyMultiplier = mod.normalEnemy;
         break;
       
-      case Evaark.Difficulty.HARD:
+      case Evaark.DifficultyEnum.HARD:
         mod.playerMultiplier = mod.hardPlayer;
         mod.enemyMultiplier = mod.hardEnemy;
         break;
@@ -170,9 +204,9 @@
     const convertValue = mod._convertDifficulty(value);
 
     switch (convertValue) {
-      case Evaark.Difficulty.EASY: return "Fácil";
-      case Evaark.Difficulty.NORMAL: return "Normal";
-      case Evaark.Difficulty.HARD: return "Difícil";
+      case Evaark.DifficultyEnum.EASY: return "Fácil";
+      case Evaark.DifficultyEnum.NORMAL: return "Normal";
+      case Evaark.DifficultyEnum.HARD: return "Difícil";
       default: return "Desconhecida";
     }
   };
@@ -180,7 +214,7 @@
   mod.setDifficulty = function (difficulty) {
     const normalized = Evaark.normalizeString(String(difficulty));
 
-    if (!Object.values(Evaark.Difficulty).includes(normalized)) {
+    if (!Object.values(Evaark.DifficultyEnum).includes(normalized)) {
       Evaark.warn(mod.name, `Dificuldade inválida: ${difficulty}`);
       return;
     }
@@ -189,17 +223,17 @@
   };
 
   mod.cycleDifficulty = function() {
-    const order = [Evaark.Difficulty.EASY, Evaark.Difficulty.NORMAL, Evaark.Difficulty.HARD];
-    const current = mod._currentDifficulty || Evaark.Difficulty.EASY;
+    const order = [Evaark.DifficultyEnum.EASY, Evaark.DifficultyEnum.NORMAL, Evaark.DifficultyEnum.HARD];
+    const current = mod._currentDifficulty || Evaark.DifficultyEnum.EASY;
     const next = order[(order.indexOf(current) + 1) % order.length];
     mod.setDifficulty(next);
   };
 
   mod._convertDifficulty = function (value) {
     const map = {
-      1: Evaark.Difficulty.EASY,
-      2: Evaark.Difficulty.NORMAL,
-      3: Evaark.Difficulty.HARD,
+      1: Evaark.DifficultyEnum.EASY,
+      2: Evaark.DifficultyEnum.NORMAL,
+      3: Evaark.DifficultyEnum.HARD,
     }
 
     if (map[value]) return map[value];
@@ -260,9 +294,6 @@
     console.log(target)
     if (target instanceof Game_Actor) {
       damage = mod._damageInPlayer(damage);
-    } else if (target instanceof Game_Enemy) {
-      // const isBoss = target.enemy().meta.boss;
-      damage = mod._damageInEnemy(damage);
     } else {
       damage = mod._damageInEnemy(damage);
     }

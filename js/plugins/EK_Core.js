@@ -51,7 +51,33 @@
     return v;
   };
 
-  Evaark.Difficulty = Object.freeze({
+  Evaark.Difficulty = function(name, playerMultiplier, enemyMultiplier) {
+    this.name = name.trim().toLowerCase();
+    this.playerMultiplier = playerMultiplier
+    this.enemyMultiplier = enemyMultiplier
+  }
+
+  Evaark.parseDifficulties = function(mod, paramName) {
+    const paramList = PluginManager.parameters(`EK_${mod.name}`)[paramName];
+
+    try {
+      const list = JSON.parse(paramList || "[]");
+      return list.map(entry => {
+        const data = JSON.parse(entry);
+
+        const name = data["Nome"];
+        const player = Number(data["Dano Jogador"]) || 1;
+        const enemy = Number(data["Dano Inimigo"]) || 1;
+
+        return new Evaark.Difficulty(name, player, enemy);
+      });
+    } catch (e) {
+      console.error("[EK_Core] Falha ao parsear Lista de Dificuldades", e);
+      return [];
+    }
+  };
+
+  Evaark.DifficultyEnum = Object.freeze({
     EASY: "easy",
     NORMAL: "normal",
     HARD: "hard",
@@ -133,6 +159,17 @@
       });
     }
   }
+
+  Evaark.loadStructArray = function(mod, paramName) {
+    const raw = PluginManager.parameters(`EK_${mod.name}`)[paramName];
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw).map(item => JSON.parse(item));
+    } catch (e) {
+      Evaark.error(mod.name, `Falha ao carregar lista: ${paramName}`);
+      return [];
+    }
+  };
 
   Evaark.normalizeString = function (text) {
     return text.trim().toLowerCase();
