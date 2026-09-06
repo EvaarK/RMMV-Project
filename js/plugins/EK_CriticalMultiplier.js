@@ -54,6 +54,7 @@
 
   /** @type {Evaark.CriticalMultiplier} */
   const mod = Evaark.createModule("CriticalMultiplier", new Evaark.Version(2, 0, 0, "beta"));
+  console.time(`[EK_${mod.name}] Init Time`);
 
   const params = PluginManager.parameters(`EK_${mod.name}`);
 
@@ -75,7 +76,7 @@
 
   const _Game_Action_applyCritical = Game_Action.prototype.applyCritical;
   Game_Action.prototype.applyCritical = function (damage) {
-    return (damage * mod.multiplier) || _Game_Action_applyCritical.call(this);
+    return (damage * mod.multiplier) || _Game_Action_applyCritical.call(this, damage);
   };
 
   mod.main = function () {
@@ -85,8 +86,6 @@
   mod.onError = function (error) {
     Evaark.error(mod.name, error);
   };
-
-  console.time(`[EK_${mod.name}] Init Time`);
 
   try {
     mod.main();

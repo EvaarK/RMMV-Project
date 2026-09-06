@@ -74,6 +74,7 @@
 
   /** @type {Evaark.BattleLogMessageSpeed} */
   const mod = Evaark.createModule("BattleLogMessageSpeed",new Evaark.Version(2, 0, 0, "beta"));
+  console.time(`[EK_${mod.name}] Init Time`);
 
   const params = PluginManager.parameters(`EK_${mod.name}`);
 
@@ -131,8 +132,6 @@
   mod.onError = function (error) {
     Evaark.error(mod.name, error);
   };
-
-  console.time(`[EK_${mod.name}] Init Time`);
 
   try {
     mod.main();

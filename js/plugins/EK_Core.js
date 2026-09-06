@@ -51,6 +51,38 @@
     return v;
   };
 
+  Evaark.Difficulty = function(name, playerMultiplier, enemyMultiplier) {
+    this.name = name.trim().toLowerCase();
+    this.playerMultiplier = playerMultiplier
+    this.enemyMultiplier = enemyMultiplier
+  }
+
+  Evaark.parseDifficulties = function(mod, paramName) {
+    const paramList = PluginManager.parameters(`EK_${mod.name}`)[paramName];
+
+    try {
+      const list = JSON.parse(paramList || "[]");
+      return list.map(entry => {
+        const data = JSON.parse(entry);
+
+        const name = data["Nome"];
+        const player = Number(data["Dano Jogador"]) || 1;
+        const enemy = Number(data["Dano Inimigo"]) || 1;
+
+        return new Evaark.Difficulty(name, player, enemy);
+      });
+    } catch (e) {
+      console.error("[EK_Core] Falha ao parsear Lista de Dificuldades", e);
+      return [];
+    }
+  };
+
+  Evaark.DifficultyEnum = Object.freeze({
+    EASY: "easy",
+    NORMAL: "normal",
+    HARD: "hard",
+  });
+
   Evaark.version = new Evaark.Version(1, 0, 0, "beta");
   Evaark.name = "Core"
 
@@ -103,6 +135,45 @@
       Evaark.error("Core", "Não foi possível salvar 'vezesIniciado' no localStorage.");
     }
   };
+
+  Evaark.parseParamNumber = function ({value, min = -Infinity, name = "", def = 0, module = ""}) {
+    const num = Number(String(value).replace(',', '.'));
+    if (isNaN(num) || num < min) {
+      Evaark.warn(module, `${name} menor que ${min}, ajustado para ${def}`);
+      return def;
+    }
+
+    return num;
+  }
+
+  Evaark.loadParamsNumber = function(mod, schema) {
+    const params = PluginManager.parameters(`EK_${mod.name}`);
+    for (const key in schema) {
+      const conf = schema[key];
+      mod[key] = Evaark.parseParamNumber({
+        value: params[conf.param],
+        min: conf.min,
+        name: conf.param,
+        def: conf.default,
+        module: mod.name 
+      });
+    }
+  }
+
+  Evaark.loadStructArray = function(mod, paramName) {
+    const raw = PluginManager.parameters(`EK_${mod.name}`)[paramName];
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw).map(item => JSON.parse(item));
+    } catch (e) {
+      Evaark.error(mod.name, `Falha ao carregar lista: ${paramName}`);
+      return [];
+    }
+  };
+
+  Evaark.normalizeString = function (text) {
+    return text.trim().toLowerCase();
+  }
 
   Evaark.main = function () {
     Evaark.timesRun();

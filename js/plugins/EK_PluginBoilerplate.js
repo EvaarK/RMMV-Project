@@ -39,6 +39,7 @@
 
   /** @type {Evaark.<NomeDoPlugin>} */
   const mod = Evaark.createModule("<NomeDoPlugin>",new Evaark.Version(1, 0, 0, "beta"));
+  console.time(`[EK_${mod.name}] Init Time`);
 
   const params = PluginManager.parameters(`EK_${mod.name}`);
 
@@ -49,8 +50,6 @@
   mod.onError = function (error) {
     Evaark.error(mod.name, error);
   };
-
-  console.time(`[EK_${mod.name}] Init Time`);
 
   try {
     mod.main();
